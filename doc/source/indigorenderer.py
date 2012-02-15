@@ -134,3 +134,4 @@ def render_indigorenderer(app, text, options):
 def setup(app):
     app.add_directive('indigorenderer', IndigoRendererDirective)
     app.connect('doctree-read', render_indigorenderer_images)
+    app.add_config_value('indigorenderer_format', DEFAULT_FORMATS, 'html')
