@@ -1,10 +1,8 @@
-package com.ggasoftware.indigo.chemdiff;
+package com.ggasoftware.indigo.controls;
 
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
 import com.ggasoftware.indigo.IndigoRenderer;
-import com.ggasoftware.indigo.controls.IndigoCheckedException;
-import com.ggasoftware.indigo.controls.IndigoObjectWrapper;
 
 public class MoleculeItem extends RenderableObjectWithId implements IndigoObjectWrapper
 {

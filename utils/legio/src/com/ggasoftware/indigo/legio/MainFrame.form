@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
@@ -17,6 +17,45 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exit_menu_itemActionPerformed"/>
               </Events>
             </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menu_view">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="View"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenu1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Layout size"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="menu_view_compact">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Compact"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_view_compactActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="menu_view_medium">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Medium"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_view_mediumActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JCheckBoxMenuItem" name="menu_view_large">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Large"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menu_view_largeActionPerformed"/>
+                  </Events>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="help_menu">
@@ -64,7 +103,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tabbed_panel" alignment="0" pref="676" max="32767" attributes="0"/>
+          <Component id="tabbed_panel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -87,7 +126,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="split_panel" alignment="0" pref="942" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="enumeration_panel" pref="932" max="32767" attributes="0"/>
+                      <Component id="enumeration_panel" pref="924" max="32767" attributes="0"/>
                       <EmptySpace min="10" pref="10" max="10" attributes="0"/>
                   </Group>
               </Group>
@@ -95,7 +134,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="split_panel" pref="603" max="32767" attributes="0"/>
+                      <Component id="split_panel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="enumeration_panel" min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
@@ -134,8 +173,8 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="reaction_button" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="reaction_path_label" pref="777" max="32767" attributes="0"/>
-                              <EmptySpace pref="22" max="32767" attributes="0"/>
+                              <Component id="reaction_path_label" pref="773" max="32767" attributes="0"/>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
                           </Group>
                           <Component id="rct_view" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -146,7 +185,7 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="reaction_label" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="reaction_button" alignment="3" max="32767" attributes="1"/>
-                                  <Component id="reaction_path_label" alignment="3" pref="23" max="32767" attributes="1"/>
+                                  <Component id="reaction_path_label" alignment="3" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="rct_view" max="32767" attributes="0"/>
@@ -170,7 +209,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="reaction_path_label">
                     </Component>
-                    <Container class="com.ggasoftware.indigo.controls.MolViewPanel" name="rct_view">
+                    <Container class="com.ggasoftware.indigo.controls.IndigoObjectViewPanel" name="rct_view">
 
                       <Layout>
                         <DimensionLayout dim="0">
@@ -197,7 +236,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="940" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="932" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -239,7 +278,7 @@
                           <Component id="is_one_tube_check" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="is_self_react_check" min="-2" pref="93" max="-2" attributes="0"/>
-                          <EmptySpace pref="95" max="32767" attributes="0"/>
+                          <EmptySpace pref="87" max="32767" attributes="0"/>
                           <Component id="react_button" min="-2" pref="132" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -248,16 +287,16 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="react_button" alignment="0" pref="30" max="32767" attributes="1"/>
+                              <Component id="react_button" alignment="0" max="32767" attributes="1"/>
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                  <Component id="max_steps_label" alignment="3" pref="30" max="32767" attributes="1"/>
+                                  <Component id="max_steps_label" alignment="3" max="32767" attributes="1"/>
                                   <Component id="max_steps_text_field" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="max_products_label" alignment="3" pref="23" max="32767" attributes="1"/>
+                                  <Component id="max_products_label" alignment="3" max="32767" attributes="1"/>
                                   <Component id="max_products_text_field" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="is_self_react_check" alignment="0" pref="30" max="32767" attributes="1"/>
-                              <Component id="is_one_tube_check" alignment="0" pref="30" max="32767" attributes="1"/>
-                              <Component id="is_multistep_reactions_check" alignment="0" pref="30" max="32767" attributes="1"/>
+                              <Component id="is_self_react_check" alignment="0" max="32767" attributes="1"/>
+                              <Component id="is_one_tube_check" alignment="0" max="32767" attributes="1"/>
+                              <Component id="is_multistep_reactions_check" alignment="0" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -353,7 +392,11 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.ggasoftware.indigo.legio.ProductsPanel" name="products_panel">
+            <Component class="com.ggasoftware.indigo.controls.MoleculeOutputTable" name="products_panel">
+              <Properties>
+                <Property name="idColumnCount" type="int" value="1"/>
+                <Property name="reactionsContentType" type="boolean" value="true"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

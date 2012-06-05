@@ -1,4 +1,4 @@
-package com.ggasoftware.indigo.chemdiff;
+package com.ggasoftware.indigo.controls;
 
 public interface ObjectWithId
 {

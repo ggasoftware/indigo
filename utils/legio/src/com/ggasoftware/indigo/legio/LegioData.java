@@ -2,9 +2,10 @@ package com.ggasoftware.indigo.legio;
 
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoObject;
-import java.io.FileWriter;
+import com.ggasoftware.indigo.controls.IndigoCheckedException;
+import com.ggasoftware.indigo.controls.IndigoObjectWrapper;
 import java.io.IOException;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 public class LegioData
 {
@@ -62,6 +63,11 @@ public class LegioData
       return output_reactions.at(idx).rxnfile();
    }
 
+   public IndigoObject getReaction ()
+   {
+       return reaction;
+   }
+   
    public String getOutProductString( int idx )
    {
       if (idx >=  output_reactions.count())
@@ -97,25 +103,21 @@ public class LegioData
       return monomers_table.at(reactant_idx).at(mon_idx).molfile();
    }
 
-   public void addMonomerFromFile( int reatcnt_idx, String mon_path )
+   public void setMonomers ( int reatcnt_idx, ArrayList<? extends IndigoObjectWrapper> mols) throws IndigoCheckedException
    {
-      IndigoObject mons_iterator = indigo.iterateSDFile(mon_path);
-      for (IndigoObject iterr : mons_iterator)
+      monomers_table.at(reatcnt_idx).clear();
+      for (IndigoObjectWrapper iterr : mols)
       {
-         try
-         {
-            monomers_table.at(reatcnt_idx).arrayAdd(iterr.clone());
-         } catch (Exception ex)
-         {
-            int i;
-            i = 1;
-         }
+        monomers_table.at(reatcnt_idx).arrayAdd(iterr.getObjectCopy());
       }
    }
 
    public void setReactionFromFile( String rxn_path )
    {
-      reaction = indigo.loadQueryReactionFromFile(rxn_path);
+      if (rxn_path.toLowerCase().endsWith("sma") || rxn_path.toLowerCase().endsWith("smarts"))
+          reaction = indigo.loadReactionSmartsFromFile(rxn_path);
+      else
+          reaction = indigo.loadQueryReactionFromFile(rxn_path);
 
       for (int i = 0; i < reaction.countReactants(); i++)
          monomers_table.arrayAdd(indigo.createArray());

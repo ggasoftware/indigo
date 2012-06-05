@@ -1,4 +1,4 @@
-package com.ggasoftware.indigo.chemdiff;
+package com.ggasoftware.indigo.controls;
 
 import com.ggasoftware.indigo.Indigo;
 import com.ggasoftware.indigo.IndigoRenderer;
