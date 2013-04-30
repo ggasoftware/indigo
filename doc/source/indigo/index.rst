@@ -14,6 +14,7 @@ Contents:
    concepts.rst
    api.rst
    resources.rst
+   plugins/index.rst
 
 ********
 Overview

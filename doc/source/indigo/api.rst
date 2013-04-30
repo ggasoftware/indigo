@@ -16,9 +16,17 @@ Image example:
 
     C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1
 
-.. codeexample::
 
-    import com.ggasoftware.indigo.Indigo;
+To use Indigo in your source files:
+
+.. codeexample::
+    :language: csharp
+
+    using com.ggasoftware.indigo;
+
+.. codeexample::
+    :language: csharp
+
     Indigo indigo = new Indigo();
-    print indigo.version();
+    Console.WriteLine(indigo.version());
 
