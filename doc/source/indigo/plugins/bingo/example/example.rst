@@ -1,6 +1,8 @@
-############
+.. _bingo-plugin-usage-example:
+
+#######
 Example
-############
+#######
 
 This source code example shows different ways of loading and creating Bingo instances, adding structures, and performing search operations.
 

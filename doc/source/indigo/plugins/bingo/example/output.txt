@@ -22,4 +22,9 @@ Search C=O
   Found id = 2
   Found id = 3
   Found id = 8
-Press any key to continue . . .
+Similarity search:
+  Found id = 3
+  Found id = 4
+  Found id = 8
+  Found id = 0
+  Found id = 5

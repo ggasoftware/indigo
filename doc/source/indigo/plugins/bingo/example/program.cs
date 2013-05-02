@@ -78,6 +78,13 @@ namespace BingoUsageExamples
                 }
             }
 
+            // Similarity search
+            Console.WriteLine("Similarity search:");
+            query = indigo.loadMolecule("NC1C=CC=C(C1O)C(O)=O");
+            search = database.searchSim(query, 0.7f, 1.0f);
+            while (search.next())
+                Console.WriteLine("  Found id = {0}", search.getCurrentId());
+
             // Database will be closed automatically in the object destructor
             // but we can close it manually to dispose memory
             database.close();
