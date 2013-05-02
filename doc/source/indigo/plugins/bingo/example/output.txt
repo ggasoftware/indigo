@@ -1,0 +1,25 @@
+  Object: 1
+  Object: 2
+  Object: 3
+  Object: 4
+  Object: 8
+  Object: 9
+  Object: 10
+  Object: 11
+  Object: 15
+  Object: 16
+  Object: 17
+  Object: 21
+  Object: 22
+Automatic id = 0
+Automatic id = 5
+Search Benzene:
+  Found id = 10
+Search Benzene in the aromatic form:
+  Found id = 10
+Search C=O
+  Found id = 1
+  Found id = 2
+  Found id = 3
+  Found id = 8
+Press any key to continue . . .

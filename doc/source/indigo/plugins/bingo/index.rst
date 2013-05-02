@@ -2,13 +2,19 @@
 Bingo plug-in
 ############
 
+Contents:
+
+.. toctree::
+
+   example/example.rst
+
 .. default-domain:: cpp
 
 ********
 Overview
 ********
 
-Bingo database plug-in implements a key-value storage for the chemical data types with chemical search functionality.
+Bingo plug-in implements a key-value storage for the chemical data types with chemical search functionality.
 
 Bingo instance corresponds to a single chemical database stored in files.
 
