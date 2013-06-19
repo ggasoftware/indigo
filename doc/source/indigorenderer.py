@@ -1,5 +1,6 @@
 import hashlib
 import os
+import traceback
 
 from docutils import nodes
 from docutils.parsers.rst import directives
@@ -69,7 +70,10 @@ def render_indigorenderer_images(app, doctree):
             continue
 
 def executeIndigoCode(text, absolute_path):
-    exec(text.replace('result.png', absolute_path))
+    try:
+        exec(text.replace('result.png', absolute_path.replace('\\', '\\\\')))
+    except Exception, e:
+        traceback.print_exc()
 
 def render(indigo, options, text, absolute_path):
     indigo_object_type = options['indigoobjecttype']
@@ -131,7 +135,7 @@ def render_indigorenderer(app, text, options):
 
     try:
         # Set defaul options
-        indigo.setOption('render-bond-length', '20')
+        indigo.setOption('render-bond-length', '30')
         indigo.setOption('render-relative-thickness', '1.3')
         indigo.setOption('render-coloring', True)
         if 'indigooptions' in options:
