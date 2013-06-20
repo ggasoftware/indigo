@@ -16,6 +16,11 @@ Image example:
 
     C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1
 
+IndigoImage example:
+
+.. indigoimage::
+    :imagename: test
+
 Image with code execution example:
 
 .. indigorenderer::
@@ -42,13 +47,14 @@ Another image with code execution example:
     :indigoobjecttype: code
     :indigoloadertype: code
     :includecode: test
+    :imagename: test
 
     testFunc()
     result = indigo.loadReaction('C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1')
     result.addProduct(indigo.loadMolecule('C'))
     result.addReactant(indigo.loadMolecule('C'))
     indigoRenderer.renderToFile(result, 'result.png')
-   
+
 To use Indigo in your source files:
 
 .. codeexample::
@@ -61,3 +67,8 @@ To use Indigo in your source files:
 
     Indigo indigo = new Indigo();
     Console.WriteLine(indigo.version());
+
+IndigoImage example:
+
+.. indigoimage::
+    :imagename: test

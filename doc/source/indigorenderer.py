@@ -45,7 +45,8 @@ class IndigoRendererDirective(directives.images.Image):
         indigooptions = str,
         indigoobjecttype = str,
         indigoloadertype = str,
-        includecode = str
+        includecode = str,
+        imagename = str
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -147,8 +148,9 @@ def render_indigorenderer(app, text, options):
     format_map = DEFAULT_FORMATS.copy()
     format_map.update(app.builder.config.indigorenderer_format)
     output_format = format_map[app.builder.format]
-    hashid = get_hashid(text,options)
-    output_filename = 'indigorenderer_%s.%s' % (hashid, output_format)
+    hashid = get_hashid(text, options)
+    output_filename = 'indigorenderer_%s.%s' % (hashid, output_format) if not 'imagename' in options else options['imagename'] + '.' + output_format
+
 
     if app.builder.format == 'html':
         output_folder = relative_uri(app.builder.env.docname,'_images')
