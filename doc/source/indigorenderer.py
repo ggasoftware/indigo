@@ -39,10 +39,13 @@ class IndigoRendererError(SphinxError):
 class IndigoRendererDirective(directives.images.Image):
     has_content = True
     required_arguments = 0
+    importedCode = []
+
     own_option_spec = dict(
         indigooptions = str,
         indigoobjecttype = str,
-        indigoloadertype = str
+        indigoloadertype = str,
+        includecode = str
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -52,6 +55,11 @@ class IndigoRendererDirective(directives.images.Image):
         self.arguments = ['']
         indigorenderer_options = dict([(k,v) for k,v in self.options.items()
                                       if k in self.own_option_spec])
+
+        if 'includecode' in indigorenderer_options:
+            import codeblockimport
+            for name in indigorenderer_options['includecode'].split(','):
+                self.importedCode.append(codeblockimport.codeDict[name])
 
         (image_node,) = directives.images.Image.run(self)
         if isinstance(image_node, nodes.system_message):
@@ -83,6 +91,8 @@ def render_indigorenderer_images(app, doctree):
 
 def executeIndigoCode(text, absolute_path):
     try:
+        for item in IndigoRendererDirective.importedCode:
+            exec(item, globals())
         exec(text.replace('result.png', absolute_path.replace('\\', '\\\\')), globals())
     except Exception, e:
         traceback.print_exc()

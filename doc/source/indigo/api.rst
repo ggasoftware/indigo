@@ -32,10 +32,18 @@ Image with code execution example:
 
 Another image with code execution example:
 
+.. code::
+    :name: test
+
+    def testFunc():
+        indigo.setOption('render-relative-thickness', '2')
+
 .. indigorenderer::
     :indigoobjecttype: code
     :indigoloadertype: code
+    :includecode: test
 
+    testFunc()
     result = indigo.loadReaction('C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1')
     result.addProduct(indigo.loadMolecule('C'))
     result.addReactant(indigo.loadMolecule('C'))
@@ -53,4 +61,3 @@ To use Indigo in your source files:
 
     Indigo indigo = new Indigo();
     Console.WriteLine(indigo.version());
-

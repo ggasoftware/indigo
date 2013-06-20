@@ -12,10 +12,10 @@ class CodeExampleDirective(CodeBlock):
     has_content = True
     required_arguments = 0
     optional_arguments = 2
-    
+
     option_spec = dict(
         language = str,
-        light = bool
+        light = bool,
     )
 
     def translateCode(self, code, outputLanguage):
@@ -43,7 +43,7 @@ class CodeExampleDirective(CodeBlock):
 
         specified_language = self.options.get('language')
         light = self.options.get('light', False)
-            
+
         nodeList = []
         if not light:
             line = nodes.transition()
@@ -55,7 +55,7 @@ class CodeExampleDirective(CodeBlock):
             if not light:
                 language_title = nodes.Text(languageDict[language] + ':', language)
                 nodeList.append(language_title)
-                
+
             literal = nodes.literal_block(self.translateCode(code, language), self.translateCode(code, language))
             literal['language'] = language
             literal['linenos'] = 'linenos' in self.options
