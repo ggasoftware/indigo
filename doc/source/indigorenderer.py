@@ -12,9 +12,21 @@ from sphinx.util import relative_uri
 
 DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None)
 
-indigo = Indigo()
-indigoRenderer = IndigoRenderer(indigo)
-indigoInchi = IndigoInchi(indigo)
+indigo = None
+indigoRenderer = None
+indigoInchi = None
+
+def resetIndigo ():
+    global indigo, indigoRenderer, indigoInchi
+
+    indigo = Indigo()
+    indigoRenderer = IndigoRenderer(indigo)
+    indigoInchi = IndigoInchi(indigo)
+
+    # Set defaul options
+    indigo.setOption('render-bond-length', '30')
+    indigo.setOption('render-relative-thickness', '1.3')
+    indigo.setOption('render-coloring', True)
 
 def get_hashid(text, options):
     hashkey = text.encode('utf-8') + str(options)
@@ -71,7 +83,7 @@ def render_indigorenderer_images(app, doctree):
 
 def executeIndigoCode(text, absolute_path):
     try:
-        exec(text.replace('result.png', absolute_path.replace('\\', '\\\\')))
+        exec(text.replace('result.png', absolute_path.replace('\\', '\\\\')), globals())
     except Exception, e:
         traceback.print_exc()
 
@@ -119,6 +131,9 @@ def render(indigo, options, text, absolute_path):
         executeIndigoCode(text, absolute_path)
 
 def render_indigorenderer(app, text, options):
+    # Reset Indigo to use new fresh options
+    resetIndigo()
+
     format_map = DEFAULT_FORMATS.copy()
     format_map.update(app.builder.config.indigorenderer_format)
     output_format = format_map[app.builder.format]
@@ -134,10 +149,6 @@ def render_indigorenderer(app, text, options):
         absolute_path = os.path.join(app.builder.outdir, output_filename)
 
     try:
-        # Set defaul options
-        indigo.setOption('render-bond-length', '30')
-        indigo.setOption('render-relative-thickness', '1.3')
-        indigo.setOption('render-coloring', True)
         if 'indigooptions' in options:
             strings = options['indigooptions'][1:-1].split(';')
             for string in strings:
