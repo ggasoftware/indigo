@@ -8,4 +8,3 @@ Contents:
 
    renderer/index.rst
    inchi/index.rst
-   bingo/index.rst

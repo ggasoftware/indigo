@@ -12,6 +12,8 @@ Contents:
    api.rst
    resources.rst
    plugins/index.rst
+   examples/index.rst
+   release-notes/index.rst
 
 ********
 Overview
@@ -21,7 +23,7 @@ Indigo is a universal organic chemistry toolkit. It contains first-class tools f
 
 Indigo is based on a cheminformatics library that incorporates a number of :ref:`unique algorithms <resources_algorithms>` developed by GGA, as well as some standard algorithms well-known in the cheminformatics world. Since the core part of Indigo is written in modern C++ with no third-party code or dependencies except the ubiquitous `zlib <http://zlib.net>`_ and `Cairo <http://cairographics.org>`_, the toolkit provides outstanding performance and excellent portability.
 
-Indigo is used by many corporations and institutions. This includes some Indigo-based commercial tools developed exclusively for our clients. Also, our open-source chemical search engine :ref:`Bingo <bingo>` is developed on top of the Indigo library.
+Indigo is used by many corporations and institutions. This includes some Indigo-based commercial tools developed exclusively for our clients. Also, our open-source chemical search engine Bingo is developed on top of the Indigo library.
 
 Indigo SDK does not make any restrictions for developers. Whatever your favorite platform is—Java, C#, or Python, not to mention plain C—you can easily integrate Indigo into your application. All problems you may be afraid of, such as loading binary modules appropriate for the system, or threading issues, or stack overflows, are already solved for you. Also, it is easy to start, as the interface is very neat. No data types besides the absolute minimum required for it to work. No internal data formats. No painful initialization procedures.
 
