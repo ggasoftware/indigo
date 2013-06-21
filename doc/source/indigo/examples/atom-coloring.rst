@@ -4,14 +4,16 @@
 Atom Coloring Example
 =====================
 
+.. indigoimage::
+    :imagename: atom-coloring-main
+
 Here is an example how to highlight molecule atoms according to the fragments activity:
 
-.. indigorenderer::
-    :indigoobjecttype: code
-    :indigoloadertype: code
+We can assign activity value for each functional group:
 
-    import collections
-    
+.. code::
+    :name: ac-patterns
+
     # Active fragment patterns
     patterns = [
         ("C-O", +1.0),
@@ -24,6 +26,13 @@ Here is an example how to highlight molecule atoms according to the fragments ac
         ("C-[Cl]", -1.0),
         ("C-S-C", 1.0),
     ]
+
+For a specified molecule one can fine all the embeddings of fragment patterns, and accumulate activity for each atom that was matched:
+
+.. code::
+    :name: ac-assignColorGroups
+
+    import collections
     
     def assignColorGroups (m):
         matcher = indigo.substructureMatcher(m)
@@ -49,18 +58,41 @@ Here is an example how to highlight molecule atoms according to the fragments ac
             m.addDataSGroup([atom_index], [], "color", color)
         
         m.setProperty("comment", "Min=%0.1f,  Max=%0.1f" % (min_value, max_value))
+
+Rendering options:
+        
+.. code::
+    :name: ac-rendering
+    
+    indigo.setOption("render-atom-color-property", "color")
+    indigo.setOption('render-coloring', False)
+    indigo.setOption('render-comment-font-size', 14.0)
+        
+        
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :includecode: ac-patterns,ac-assignColorGroups,ac-rendering
+    :imagename: atom-coloring-main
     
     # Load structure
     m = indigo.loadMolecule('CCN1C(SC(C)C(=O)NCC2=CC=C(F)C=C2)=NN=C1C1=CC=CC=C1OC')
     
     assignColorGroups(m)
     
-    indigo.setOption("render-atom-color-property", "color")
-    indigo.setOption('render-coloring', False)
-    #indigo.setOption('render-comment', m.getProperty("comment"))
-    #print m.getProperty("comment")
     indigo.setOption('render-comment', "CID=46758793,  " + m.getProperty("comment"))
-    indigo.setOption('render-comment-font-size', 14.0)
+    indigoRenderer.renderToFile(m, 'result.png')
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :includecode: ac-patterns,ac-assignColorGroups,ac-rendering
     
+    # Load structure
+    m = indigo.loadMolecule('[O-][N+](=O)C1=CN2CC3(CCN(CC3)C(=O)OCC3=CC=C(C=C3)C(F)(F)F)OC2=N1')
+    
+    assignColorGroups(m)
+    
+    indigo.setOption('render-comment', "CID=23081329,  " + m.getProperty("comment"))
     indigoRenderer.renderToFile(m, 'result.png')
 
