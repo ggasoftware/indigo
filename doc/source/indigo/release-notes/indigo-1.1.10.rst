@@ -2,13 +2,71 @@
 Indigo 1.1.10
 #############
 
-*********
-Rendering
-*********
+Last commit:
+
+    | Revision: 6de4d98cfede30fd848188e9358a0a906246cfc2
+    | Author: Mikhail Rybalkin <rybalkin@ggasoftware.com>
+    | Date: 4/26/2013 14:29:19
+    | Message:
+    | indigo-api: new methods: stereocenterGroup, setStereocenterGroup, markStereobonds
+
+**********************
+Core Indigo API module
+**********************
+
+=============================
+New features and improvements
+=============================
+
+ * Fingerprints computation is 2-4 times faster
+ * Restored source compatibility with MinGW compiler
+
+======== 
+Bugfixes
+========
+
+ * Memory leak in the `grossFormula` API method in case of exceptions during computation
+ * Molfile substitution flag ???
+    | Revision: c2bb8c3463d059c7515b57ef8cfe84503b863657
+    | Author: Mikhail Kozhevnikov <kozhevnikov@ggasoftware.com>
+    | Date: 4/23/2013 03:11:21
+    | Message:
+    | substitution count handling fix
+
+ 
+=====================
+Stereocenters methods
+=====================
+
+stereocenterGroup, setStereocenterGroup, markStereobonds 
+ 
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+
+    # Load structure
+    m = indigo.loadMoleculeFromFile('data/stereogroups.mol') # TODO: load data from the current directory
+    print m.smiles() # TODO: add printing
+    indigoRenderer.renderToFile(m, 'result.png')
+   
+ 
+****************
+Rendering module
+****************
+
+========
+Bugfixes
+========
+
+ * `render-bond-length` were disabled if `render-image-size` were set. Now `render-bond-length` 
+   parameter specifies maximum bond length even if image size is specified
+
 
 =============
 Atom coloring
 =============
+
+Indigo can use a specified color for each atom and interpolate these colors for bond rendering.
 
 .. indigorenderer::
     :indigoobjecttype: code
@@ -51,6 +109,7 @@ Bond line width
     indigo.setOption('render-comment', 'render-bond-line-width=0.5')
     indigoRenderer.renderToFile(m, 'result.png')
     
+    # TODO: add multiple images support
     
 ..
     .. image:: ../../_images/test.svg
