@@ -2,9 +2,13 @@
 Indigo 1.1.10
 #############
 
-*************
+*********
+Rendering
+*********
+
+=============
 Atom coloring
-*************
+=============
 
 .. indigorenderer::
     :indigoobjecttype: code
@@ -22,3 +26,37 @@ Atom coloring
     indigoRenderer.renderToFile(m, 'result.png')
 
 For a larger example see :ref:`indigo-example-atom-coloring`.
+
+===============
+Bond line width
+===============
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+
+    m = indigo.loadMolecule('CC1=C(Cl)C=CC2=C1NS(=O)S2')
+    
+    # Default visualization
+    indigo.setOption('render-comment', 'default')
+    indigoRenderer.renderToFile(m, 'result.png')
+
+    # Bonds are twice thicker
+    indigo.setOption('render-bond-line-width', 2.0)
+    indigo.setOption('render-comment', 'render-bond-line-width=2.0')
+    indigoRenderer.renderToFile(m, 'result.png')
+    
+    # Bonds are twice thinner
+    indigo.setOption('render-bond-line-width', 0.5)
+    indigo.setOption('render-comment', 'render-bond-line-width=0.5')
+    indigoRenderer.renderToFile(m, 'result.png')
+    
+    
+..
+    .. image:: ../../_images/test.svg
+       :width: 20%
+    .. image:: ../../_images/test.svg
+       :width: 20%
+    .. image:: ../../_images/test.svg
+       :width: 20%    
+    
