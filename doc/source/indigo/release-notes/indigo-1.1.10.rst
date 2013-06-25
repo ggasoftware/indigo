@@ -1,3 +1,5 @@
+.. _indigo-1.1.10-release-notes:
+
 #############
 Indigo 1.1.10
 #############
@@ -26,13 +28,7 @@ Bugfixes
 ========
 
  * Memory leak in the `grossFormula` API method in case of exceptions during computation
- * Molfile substitution flag ???
-    | Revision: c2bb8c3463d059c7515b57ef8cfe84503b863657
-    | Author: Mikhail Kozhevnikov <kozhevnikov@ggasoftware.com>
-    | Date: 4/23/2013 03:11:21
-    | Message:
-    | substitution count handling fix
-
+ * Molfile substitution flag value was set to 4 instead of 6
  
 =====================
 Stereocenters methods
