@@ -86,22 +86,25 @@ class IndigoRendererDirective(directives.images.Image):
             for name in indigorenderer_options['includecode'].split(','):
                 self.importedCode.append(codeblockimport.codeDict[name])
 
-        image_nodes = []
+        #image_nodes = []
         text = '\n'.join(self.content)
+        #if indigorenderer_options['indigoobjecttype'] == 'code':
+        #    imageCount = 1
+        #    while re.match('result_(\w+)\.png', text):
+        #        imageCount += 1
 
-        #global absolutePaths
         #for i in range(len(absolutePaths.keys())):
         (image_node,) = directives.images.Image.run(self)
-        image_nodes.append(image_node)
+        #image_nodes.append(image_node)
         if isinstance(image_node, nodes.system_message):
-           return [image_node, ]
+            return [image_node, ]
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
         if indigorenderer_options['indigoobjecttype'] == 'code':
              literal = nodes.literal_block(text, text)
              literal['language'] = 'python'
              return [literal, image_node]
         else:
-            return [image_node,]
+           return [image_node, ]
 
 def render_indigorenderer_images(app, doctree):
     for img in doctree.traverse(nodes.image):
@@ -112,7 +115,8 @@ def render_indigorenderer_images(app, doctree):
         options = img.indigorenderer['options']
         try:
             relative_path, output = render_indigorenderer(app, text, options, os.path.dirname(doctree.attributes['source']), os.path.abspath(os.curdir))
-
+            sys.__stdout__.write(relative_path + '\n')
+            img['uri'] = absolutePaths[relative_path]
             global absolutePaths
             img['uri'] = relative_path #absolutePaths[relative_path]
             if output:
@@ -222,7 +226,6 @@ def render_indigorenderer(app, text, options, rstdir, curdir):
         output = render(indigo, options, text, absolute_path, relative_path, rstdir, curdir)
     except IndigoException, exc:
         raise IndigoRendererError(exc)
-
     return relative_path, output
 
 def setup(app):
