@@ -42,8 +42,8 @@ stereocenterGroup, setStereocenterGroup, markStereobonds
 
     # Load structure
     m = indigo.loadMoleculeFromFile('data/stereogroups.mol') # TODO: load data from the current directory
-    print m.smiles() # TODO: add printing
-    indigoRenderer.renderToFile(m, 'result.png')
+    print m.smiles()
+    indigoRenderer.renderToFile(m, 'result_1.png')
    
  
 ****************
@@ -106,12 +106,3 @@ Bond line width
     indigoRenderer.renderToFile(m, 'result.png')
     
     # TODO: add multiple images support
-    
-..
-    .. image:: ../../_images/test.svg
-       :width: 20%
-    .. image:: ../../_images/test.svg
-       :width: 20%
-    .. image:: ../../_images/test.svg
-       :width: 20%    
-    

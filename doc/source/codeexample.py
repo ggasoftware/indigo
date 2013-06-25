@@ -45,9 +45,9 @@ class CodeExampleDirective(CodeBlock):
         light = self.options.get('light', False)
 
         nodeList = []
-        if not light:
-            line = nodes.transition()
-            nodeList.append(line)
+        #if not light:
+        #    line = nodes.transition()
+        #    nodeList.append(line)
         languageDict = {'python': 'Python', 'java': 'Java', 'csharp': 'C#'}
         for language in languageDict:
             if specified_language is not None and specified_language != language:
@@ -63,9 +63,9 @@ class CodeExampleDirective(CodeBlock):
                 literal['highlight_args'] = {'hl_lines': hl_lines}
             set_source_info(self, literal)
             nodeList.append(literal)
-        if not light:
-            line = nodes.transition()
-            nodeList.append(line)
+        #if not light:
+        #    line = nodes.transition()
+        #    nodeList.append(line)
         #TODO: execute python code
         return nodeList
 
