@@ -21,12 +21,9 @@ class CodeDirective(CodeBlock):
         code = u'\n'.join(self.content)
         codeDict[self.options['name']] = code
         nodeList = []
-        line = nodes.transition()
-        nodeList.append(line)
         literal = nodes.literal_block(code, code)
         literal['language'] = 'python'
         nodeList.append(literal)
-        nodeList.append(line)
 
         return nodeList
 

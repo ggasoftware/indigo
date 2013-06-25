@@ -70,7 +70,7 @@ class IndigoRendererDirective(directives.images.Image):
         if indigorenderer_options['indigoobjecttype'] == 'code':
              literal = nodes.literal_block(text, text)
              literal['language'] = 'python'
-             return [nodes.transition(), literal, image_node, nodes.transition()]
+             return [literal, image_node]
         else:
             return [image_node]
 
