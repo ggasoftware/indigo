@@ -2,6 +2,8 @@ import hashlib
 import os
 import traceback
 
+import re
+import sys
 from docutils import nodes
 from docutils.parsers.rst import directives
 from indigo import Indigo, IndigoException
@@ -16,7 +18,10 @@ indigo = None
 indigoRenderer = None
 indigoInchi = None
 
-def resetIndigo ():
+absolutePaths = {}
+absolutePathsCounter = 0
+
+def resetIndigo():
     global indigo, indigoRenderer, indigoInchi
 
     indigo = Indigo()
@@ -62,17 +67,25 @@ class IndigoRendererDirective(directives.images.Image):
             for name in indigorenderer_options['includecode'].split(','):
                 self.importedCode.append(codeblockimport.codeDict[name])
 
-        (image_node,) = directives.images.Image.run(self)
-        if isinstance(image_node, nodes.system_message):
-            return [image_node]
+        image_nodes = []
         text = '\n'.join(self.content)
-        image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
+        #if indigorenderer_options['indigoobjecttype'] == 'code':
+        #    imageCount = 1
+        #    while re.match('result_(\w+)\.png', text):
+        #        imageCount += 1
+
+        for i in range(len(absolutePaths.keys())):
+            (image_node,) = directives.images.Image.run(self)
+            image_nodes.append(image_node)
+            if isinstance(image_node, nodes.system_message):
+                return [image_node, ]
+            image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
         if indigorenderer_options['indigoobjecttype'] == 'code':
              literal = nodes.literal_block(text, text)
              literal['language'] = 'python'
              return [literal, image_node]
         else:
-            return [image_node]
+            return [image_node,]
 
 def render_indigorenderer_images(app, doctree):
     for img in doctree.traverse(nodes.image):
@@ -83,22 +96,30 @@ def render_indigorenderer_images(app, doctree):
         options = img.indigorenderer['options']
         try:
             relative_path = render_indigorenderer(app, text, options)
-            img['uri'] = relative_path
+            sys.__stdout__.write(relative_path + '\n')
+            img['uri'] = absolutePaths[relative_path]
 
         except IndigoRendererError, exc:
             app.builder.warn('indigorenderer error: ' + str(exc))
             img.replace_self(nodes.literal_block(text, text))
             continue
 
-def executeIndigoCode(text, absolute_path):
+def executeIndigoCode(text, absolute_path, relativePath):
     try:
         for item in IndigoRendererDirective.importedCode:
             exec(item, globals())
-        exec(text.replace('result.png', absolute_path.replace('\\', '\\\\')), globals())
+        result = True
+        while result:
+            result = re.match('result_(\w+)\.png', text)
+            if result:
+                newAbsolutePath = absolute_path.replace('\\', '\\\\').replace('.pdf', '_%s.pdf' % result.group(1)).replace('.svg', '_%s.svg' % result.group(1))
+                absolutePaths[relativePath] = newAbsolutePath
+                text.replace('result_%s.png' % result.group(1), newAbsolutePath)
+        exec(text, globals())
     except Exception, e:
         traceback.print_exc()
 
-def render(indigo, options, text, absolute_path):
+def render(indigo, options, text, absolute_path, relativePath):
     indigo_object_type = options['indigoobjecttype']
     indigo_loader_type = options['indigoloadertype']
     loader = None
@@ -137,7 +158,7 @@ def render(indigo, options, text, absolute_path):
     if not loader:
         raise IndigoRendererError('Cannot find indigo loader for object type: %s, %s' % (indigo_object_type, indigo_loader_type))
     if loader != executeIndigoCode:
-        indigoRenderer.renderToFile(loader(text), absolute_path)
+        indigoRenderer.renderToFile(loader(text), absolute_path, relativePath)
     else:
         executeIndigoCode(text, absolute_path)
 
@@ -159,6 +180,8 @@ def render_indigorenderer(app, text, options):
     else:
         relative_path = output_filename
         absolute_path = os.path.join(app.builder.outdir, output_filename)
+
+    absolutePaths[relative_path] = absolute_path
 
     try:
         if 'indigooptions' in options:
