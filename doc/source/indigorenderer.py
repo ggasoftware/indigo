@@ -106,6 +106,7 @@ class IndigoRendererDirective(directives.images.Image):
         else:
            return [image_node, ]
 
+
 def render_indigorenderer_images(app, doctree):
     for img in doctree.traverse(nodes.image):
         if not hasattr(img, 'indigorenderer'):
@@ -115,8 +116,6 @@ def render_indigorenderer_images(app, doctree):
         options = img.indigorenderer['options']
         try:
             relative_path, output = render_indigorenderer(app, text, options, os.path.dirname(doctree.attributes['source']), os.path.abspath(os.curdir))
-            sys.__stdout__.write(relative_path + '\n')
-            img['uri'] = absolutePaths[relative_path]
             global absolutePaths
             img['uri'] = relative_path #absolutePaths[relative_path]
             if output:
@@ -139,8 +138,6 @@ def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir):
                 #global absolutePaths
                 #absolutePaths[relativePath] = newAbsolutePath
                 text.replace('result_%s.png' % result.group(1), newAbsolutePath)
-            print text
-
         os.chdir(rstdir)
         logger = Logger()
         sys.stdout = logger
