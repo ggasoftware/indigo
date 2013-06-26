@@ -174,7 +174,7 @@ Rendering a set of molecules
     :includecode: ac-patterns,ac-assignColorGroups,ac-rendering,ac-colorbar
     
     # Load structure
-    file = """data\pubchem-9-rand.smi"""
+    file = """data/pubchem-9-rand.smi"""
     array = indigo.createArray()
     for m in indigo.iterateSmilesFile(file):
         min_value, max_value = assignColorGroups(m)

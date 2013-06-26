@@ -41,14 +41,16 @@ stereocenterGroup, setStereocenterGroup, markStereobonds
     :indigoloadertype: code
 
     # Load structure
-<<<<<<< HEAD
-    m = indigo.loadMoleculeFromFile('data/stereogroups.mol') # TODO: load data from the current directory
-=======
     m = indigo.loadMoleculeFromFile('data/stereogroups.mol')
->>>>>>> indigo-doc: stdout interception added; relative paths allowed
     print m.smiles()
     indigoRenderer.renderToFile(m, 'result_1.png')
-   
+    m2 = indigo.loadMolecule('C1=C(O)C=CN=C1CN')
+    print m2.smiles()
+    indigoRenderer.renderToFile(m2, 'result_2.png')
+    m3 = indigo.loadMolecule('C1=CN(O)C=CN=C1CN')
+    print m3.smiles()
+    indigoRenderer.renderToFile(m3, 'result_3.png')
+
  
 ****************
 Rendering module
