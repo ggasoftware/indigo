@@ -32,7 +32,7 @@ Image with code execution example:
     result = indigo.loadReaction('C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1')
     result.addProduct(indigo.loadMolecule('C'))
     result.addReactant(indigo.loadMolecule('C'))
-    indigo.setOption('render-relative-thickness', '0.3')
+    indigo.setOption('render-relative-thickness', '1')
     indigoRenderer.renderToFile(result, 'result.png')
 
 Another image with code execution example:
@@ -61,10 +61,6 @@ To use Indigo in your source files:
     :language: csharp
 
     using com.ggasoftware.indigo;
-
-.. codeexample::
-    :language: csharp
-
     Indigo indigo = new Indigo();
     Console.WriteLine(indigo.version());
 

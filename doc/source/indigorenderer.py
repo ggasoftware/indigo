@@ -1,4 +1,3 @@
-from cStringIO import StringIO
 from collections import defaultdict
 import hashlib
 import os
@@ -91,7 +90,8 @@ class IndigoRendererDirective(directives.images.Figure):
             return [image_node, ]
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
         if indigorenderer_options['indigoobjecttype'] == 'code':
-             literal = nodes.literal_block(text, text)
+             literal = nodes.literal_block(text, text, line=self.lineno)
+             literal['linenos'] = True
              literal['language'] = 'python'
              return [literal, image_node]
         else:

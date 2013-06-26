@@ -23,6 +23,7 @@ class CodeDirective(CodeBlock):
         nodeList = []
         literal = nodes.literal_block(code, code)
         literal['language'] = 'python'
+        literal['linenos'] = True
         nodeList.append(literal)
 
         return nodeList
