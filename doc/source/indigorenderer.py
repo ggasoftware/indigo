@@ -45,10 +45,11 @@ def resetIndigo():
     indigoRenderer = IndigoRenderer(indigo)
     indigoInchi = IndigoInchi(indigo)
 
-    # Set defaul options
+    # Set default options
     indigo.setOption('render-bond-length', '30')
     indigo.setOption('render-relative-thickness', '1.3')
-    indigo.setOption('render-coloring', True)
+    indigo.setOption('render-coloring', False)
+    indigo.setOption('render-comment-font-size', 14.0)
 
 def get_hashid(text, options):
     hashkey = text.encode('utf-8') + str(options)
@@ -61,7 +62,6 @@ class IndigoRendererError(SphinxError):
 class IndigoRendererDirective(directives.images.Figure):
     has_content = True
     required_arguments = 0
-    importedCode = []
 
     own_option_spec = dict(
         indigooptions = str,
@@ -78,11 +78,6 @@ class IndigoRendererDirective(directives.images.Figure):
         self.arguments = ['']
         indigorenderer_options = dict([(k,v) for k,v in self.options.items()
                                       if k in self.own_option_spec])
-
-        if 'includecode' in indigorenderer_options:
-            import codeblockimport
-            for name in indigorenderer_options['includecode'].split(','):
-                self.importedCode.append(codeblockimport.codeDict[name])
 
         text = '\n'.join(self.content)
         (image_node,) = directives.images.Image.run(self)
@@ -129,11 +124,13 @@ def render_indigorenderer_images(app, doctree):
             img.replace_self(nodes.literal_block(text, text))
             continue
 
-def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir):
+def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options):
     try:
-        for item in IndigoRendererDirective.importedCode:
-            exec(item, globals())
-
+        if 'includecode' in options:
+            import codeblockimport
+            for name in options['includecode'].split(','):
+                exec(codeblockimport.codeDict[name], globals())
+                
         text = text.replace('result.png', absolute_path)
 
         result = re.search('result_(.*)\.png', text, re.MULTILINE)
@@ -199,7 +196,7 @@ def render(indigo, options, text, absolute_path, relativePath, rstdir, curdir):
     if loader != executeIndigoCode:
         indigoRenderer.renderToFile(loader(text), absolute_path)
     else:
-        return executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir)
+        return executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options)
 
 def render_indigorenderer(app, text, options, rstdir, curdir):
     # Reset Indigo to use new fresh options
