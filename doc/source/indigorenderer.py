@@ -50,6 +50,7 @@ def resetIndigo():
     indigo.setOption('render-relative-thickness', '1.3')
     indigo.setOption('render-coloring', False)
     indigo.setOption('render-comment-font-size', 14.0)
+    indigo.setOption('render-comment-offset', '10')
 
 def get_hashid(text, options):
     hashkey = text.encode('utf-8') + str(options)
