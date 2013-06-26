@@ -1,8 +1,8 @@
 .. _indigo-example-atom-coloring:
 
-=====================
-Atom Coloring Example
-=====================
+=============
+Atom Coloring
+=============
 
 .. indigoimage::
     :imagename: atom-coloring-main
@@ -13,13 +13,14 @@ Activity for each atom can be expressed as a sum of activities of each group tha
 
 Atom coloring feature was introduced in the :ref:`indigo-1.1.10-release-notes`.
 
-`Note: not all the browsers support gradients in the SVG images that are used on this page`
+.. note::
+    not all the browsers support gradients in the SVG images that are used on this page
 
 ------------------------------
 Functional groups highlighting
 ------------------------------
 
-First, we can assign activity value for each functional group:
+First, we can define an arbitrary set of functional group patterns and assign activity for each of them:
 
 .. code::
     :name: ac-patterns
@@ -40,11 +41,12 @@ First, we can assign activity value for each functional group:
 For a specified molecule one can fine all the embeddings of fragment patterns, and accumulate activity for each atom that was matched:
 
 .. code::
-    :name: ac-assignColorGroups
+    :name: ac-getAtomsActivity
+    :includecode: ac-patterns
 
     import collections
     
-    def getAtomActivity (m):
+    def getAtomsActivity (m):
         # Create substructure matcher for the specified molecule
         matcher = indigo.substructureMatcher(m)
 
@@ -63,18 +65,35 @@ For a specified molecule one can fine all the embeddings of fragment patterns, a
                     atom_values[atom.index()] += value / query.countAtoms()
                     
         return atom_values
+
+The following code prints activity value for a given structure:
         
-    def assignColorGroups (m):
-        atom_values = getAtomActivity(m)
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :includecode: ac-getAtomsActivity
     
-        # `atom_values` is a map between atoms and their activities
-        # Color molecule atoms based on this activity
-        min_value, max_value = colorAtoms(m, atom_values)
+    # Load structure
+    m = indigo.loadMolecule('CC1=C(Cl)C=CC2=C1NS(=O)S2')
+    
+    activity = getAtomsActivity(m)
+    
+    for index, value in activity.iteritems():
+        print("Atom %d: %0.2f" % (index, value))
         
-        # pass bounds for further processing
-        return min_value, max_value
-                    
-    def colorAtoms (m, atom_values):
+    # Enable rendering of atom indices
+    indigo.setOption("render-atom-ids-visible", "true"); 
+    
+    indigoRenderer.renderToFile(m, 'result.png')
+     
+Let's assign a color for each atom based on its activity: negative values are 
+colored from blue to back, and positive values are colored from back to red. Indigo 
+Renderer interprets data s-groups with a specified name as a color for the atoms. 
+        
+.. code::
+    :name: ac-addColorSGroups
+    
+    def addColorSGroups (m, atom_values):
         # Color [min_value, max_value] by linear interpolation
         min_value = min(atom_values.itervalues())
         max_value = max(atom_values.itervalues())
@@ -90,9 +109,26 @@ For a specified molecule one can fine all the embeddings of fragment patterns, a
             m.addDataSGroup([atom_index], [], "color", color)
         
         return min_value, max_value
-
-Rendering options:
         
+Previous two methods can be wrapped into a single method that computes atom activities and colors molecule atoms accoring to these activities:        
+        
+.. code::
+    :name: ac-assignColorGroups
+    :includecode: ac-getAtomsActivity,ac-addColorSGroups
+    
+    def assignColorGroups (m):
+        atom_values = getAtomsActivity(m)
+    
+        # `atom_values` is a map between atoms and their activities
+        # Color molecule atoms based on this activity
+        min_value, max_value = addColorSGroups(m, atom_values)
+        
+        # pass bounds for further processing
+        return min_value, max_value
+                    
+
+For the visualizations below we are going to use the following options:                    
+
 .. code::
     :name: ac-rendering
     
@@ -100,7 +136,9 @@ Rendering options:
     indigo.setOption('render-coloring', False)
     indigo.setOption('render-comment-font-size', 14.0)
     indigo.setOption('render-bond-line-width', 2.0)        
-        
+                    
+Wrapping all these method one can color and render an arbitrary molecule:
+       
 .. indigorenderer::
     :indigoobjecttype: code
     :indigoloadertype: code
@@ -116,6 +154,10 @@ Rendering options:
 ---------
 Color bar
 ---------
+    
+Annotations, color bars, axis grid and other additional graphics are out of scope of Indigo Renderer module. But we 
+can make a trick and render a color bar as tree connected pseudoatoms with a numeric label and with assigned colors. The 
+following code adds a color bar atoms right to the molecule:
     
 .. code::
     :name: ac-colorbar
@@ -138,7 +180,9 @@ Color bar
         a2.addBond(a3, 1)
         m.addDataSGroup([a1.index()], [], "color", "0, 0, 1")
         m.addDataSGroup([a3.index()], [], "color", "1, 0, 0")
-    
+
+Standalone color bar looks in the following way:        
+        
 .. indigorenderer::
     :indigoobjecttype: code
     :indigoloadertype: code
@@ -149,10 +193,12 @@ Color bar
     addAtomColorbar(m, -2.0, 3.0)
     indigoRenderer.renderToFile(m, 'result.png')
     
+Overall example for a single molecule:
+    
 .. indigorenderer::
     :indigoobjecttype: code
     :indigoloadertype: code
-    :includecode: ac-patterns,ac-assignColorGroups,ac-rendering,ac-colorbar
+    :includecode: ac-assignColorGroups,ac-rendering,ac-colorbar
     :imagename: atom-coloring-main
     
     # Load structure CID=23081329
@@ -164,17 +210,19 @@ Color bar
     indigo.setOption('render-comment', "CID=23081329")
     indigoRenderer.renderToFile(m, 'result.png')
 
-----------------------------
-Rendering a set of molecules
-----------------------------
+--------------------------------------
+Rendering a set of molecules in a grid
+--------------------------------------
+
+Atom coloring works not only for a single structure but for grid rendering too.
 
 .. indigorenderer::
     :indigoobjecttype: code
     :indigoloadertype: code
-    :includecode: ac-patterns,ac-assignColorGroups,ac-rendering,ac-colorbar
+    :includecode: ac-assignColorGroups,ac-rendering,ac-colorbar
     
     # Load structure
-    file = """data/pubchem-9-rand.smi"""
+    file = "data/pubchem-9-rand.smi"
     array = indigo.createArray()
     for m in indigo.iterateSmilesFile(file):
         min_value, max_value = assignColorGroups(m)
@@ -191,3 +239,7 @@ Rendering a set of molecules
     indigo.setOption("render-grid-title-property", "grid-comment")
         
     indigoRenderer.renderGridToFile(array, None, 3, 'result.png')
+
+Content of the file ``data/pubchem-9-rand.smi`` with 9 randomly selected molecules that is used in the example above:
+    
+.. literalinclude:: data/pubchem-9-rand.smi

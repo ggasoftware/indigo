@@ -99,15 +99,15 @@ Bond line width
     
     # Default visualization
     indigo.setOption('render-comment', 'default')
-    indigoRenderer.renderToFile(m, 'result.png')
+    indigoRenderer.renderToFile(m, 'result_1.png')
 
     # Bonds are twice thicker
     indigo.setOption('render-bond-line-width', 2.0)
     indigo.setOption('render-comment', 'render-bond-line-width=2.0')
-    indigoRenderer.renderToFile(m, 'result.png')
+    indigoRenderer.renderToFile(m, 'result_2.png')
     
     # Bonds are twice thinner
     indigo.setOption('render-bond-line-width', 0.5)
     indigo.setOption('render-comment', 'render-bond-line-width=0.5')
-    indigoRenderer.renderToFile(m, 'result.png')
+    indigoRenderer.renderToFile(m, 'result_3.png')
 
