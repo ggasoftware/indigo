@@ -90,7 +90,7 @@ class IndigoRendererDirective(directives.images.Figure):
         blocks = []
         if indigorenderer_options['indigoobjecttype'] == 'code':
             literal = nodes.literal_block(text, text, line=self.lineno)
-            literal['linenos'] = True
+            #literal['linenos'] = True
             literal['language'] = 'python'
             blocks = [literal]
             if 'downloads' in self.options:

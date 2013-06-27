@@ -58,7 +58,7 @@ class CodeExampleDirective(CodeBlock):
 
             literal = nodes.literal_block(self.translateCode(code, language), self.translateCode(code, language))
             literal['language'] = language
-            literal['linenos'] = True
+            #literal['linenos'] = True
             if hl_lines is not None:
                 literal['highlight_args'] = {'hl_lines': hl_lines}
             set_source_info(self, literal)
