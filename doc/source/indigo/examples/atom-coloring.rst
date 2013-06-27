@@ -11,7 +11,7 @@ This example shows how to highlight different molecule atom based on the set of 
 For example, we have functional groups with positive and negative activity and want to color molecule according to this activity. 
 Activity for each atom can be expressed as a sum of activities of each group that atoms belongs to divided by the functional group size.
 
-Atom coloring feature was introduced in the :ref:`indigo-1.1.10-release-notes`.
+Atom coloring feature was introduced in the :ref:`indigo-1.1.11-release-notes`.
 
 .. note::
     not all the browsers support gradients in the SVG images that are used on this page
@@ -220,6 +220,7 @@ Atom coloring works not only for a single structure but for grid rendering too.
     :indigoobjecttype: code
     :indigoloadertype: code
     :includecode: ac-assignColorGroups,ac-rendering,ac-colorbar
+    :downloads: data/pubchem-9-rand.smi
     
     # Load structure
     file = "data/pubchem-9-rand.smi"
@@ -240,6 +241,6 @@ Atom coloring works not only for a single structure but for grid rendering too.
         
     indigoRenderer.renderGridToFile(array, None, 3, 'result.png')
 
-Content of the file ``data/pubchem-9-rand.smi`` with 9 randomly selected molecules that is used in the example above:
+Content of the file :download:`data/pubchem-9-rand.smi` with 9 randomly selected molecules that is used in the example above:
     
 .. literalinclude:: data/pubchem-9-rand.smi
