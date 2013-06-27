@@ -23,7 +23,7 @@ Summary
  * New method that releases memory for the Indigo Object: ``dispose`` 
  * Indigo Java doesn't remove dll-modules in the temporary directory that results in a faster loading 
  * :ref:`CDXML file format export <indigo-1.1.11-cdxml>`
- * :ref:`New methods to read data from buffers <indigo-1.1.11-buffers>`: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML``, ``iterateSmiles``
+ * :ref:`New methods to read data from buffers <indigo-1.1.11-buffers>`: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML``
  * Indigo Python API binding works for Python 3
  * :ref:`New SGroup-related methods <indigo-1.1.11-sgroups>`: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data``
  
@@ -148,8 +148,32 @@ if a molecule matches to its mirror and clears chirality flag in this case [#fch
 SGroup methods
 --------------
     
-  * getGenericSGroup(int index), getMultipleGroup(int index), getRepeatingUnit(int index),
-  * data() returns SGroup data information    
+    * There are new ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit`` methods along with already existing ``getDataSGroup`` and ``getSuperatom``:
+    * ``data()`` returns SGroup data information  
+
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :downloads: data/rep-dat.mol
+
+    m = indigo.loadMoleculeFromFile("data/rep-dat.mol")
+    indigo.setOption("render-atom-ids-visible", "true"); 
+    indigoRenderer.renderToFile(m, 'result_1.png')
+    
+    # print multiple group information by index
+    mul_group = m.getMultipleGroup(0)
+    print "Multiple group #", mul_group.index(), "atoms:"
+    for atom in mul_group.iterateAtoms():
+        print "  ", atom.index()
+        
+    mul_group.remove()
+    indigoRenderer.renderToFile(m, 'result_2.png')
+    
+    # print data s-group description and data
+    data_group = m.getDataSGroup(0)
+    print "data s-group description =", data_group.description()
+    print "data s-group data =", data_group.data()
   
 .. _indigo-1.1.11-buffers:
 
@@ -157,19 +181,51 @@ SGroup methods
 Buffers
 -------
 
+There are standard methods to load structures from files like ``loadMoleculeFromFile`` and ``iterateSDFile``. But if it is necessary to load an SDF from memory (for example, if you are writing web service) then there are new methods to create buffers and load structure from buffers:
+
+ * ``loadBuffer``, ``loadString`` - methods to create stream from a buffer or a string
+ * ``iterateSDF``, ``iterateSmiles``, ``iterateCML`` - methods to iterate structures from a stream
+ 
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :noimage:
+
+    data = "S(C1C=CC(=CC=1)F)C1C=C(C=CN=1)CN 43528886\n"
+    data += "BrC1(C=CC=CC1)S(NC1C=CC(C)=CC=1)(=O)=O 504161"
+    
+    stream = indigo.loadString(data)
+    for molecule in indigo.iterateSmiles(stream):
+        print molecule.name(), molecule.canonicalSmiles(), molecule.molecularWeight()
+
+
 .. _indigo-1.1.11-cdxml:
 
 ----------
 CDX Export
 ----------
     
-Chriality
-
-Pages
-
-Grid    
-
-Test comments    
+There is a new CDXML export functionality via rendering a grid of structures 
+with ``renderGridToFile`` method. This method automatically aligns structures, adds text 
+comments, and splits the whole document on pages.
+        
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :downloads: data/pubchem-slice.smi
+    :noimage:
+    
+    arr = indigo.createArray()
+    for m in indigo.iterateSmilesFile("data/pubchem-slice.smi"):
+        m.setProperty("title", "Mass: %f\nFormula: %s" % (m.molecularWeight(), m.grossFormula()))
+        arr.arrayAdd(m)
+        
+    indigo.setOption("render-grid-title-property", "title")
+    indigo.setOption("render-comment", "title:\nSet of molecules")    
+    
+    indigoRenderer.renderGridToFile(arr, None, 3, "result.cdxml")
+    
+.. #TODO# automatically parse "result.cdxml" and insert downloads link
     
 ================
 Rendering module
@@ -228,4 +284,4 @@ Bond line width
 
 .. rubric:: Footnotes
 
-.. [#fchiral] Suggested by Marcin: https://groups.google.com/d/msg/indigo-general/A8VtF-51viw/E093AE-b-pwJ
+.. [#fchiral] Requested by Marcin: https://groups.google.com/d/msg/indigo-general/A8VtF-51viw/E093AE-b-pwJ
