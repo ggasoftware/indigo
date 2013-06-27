@@ -71,7 +71,8 @@ class IndigoRendererDirective(directives.images.Figure):
         indigoloadertype = str,
         includecode = str,
         imagename = str,
-        downloads = str
+        downloads = str,
+        noimage = directives.flag
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -94,11 +95,13 @@ class IndigoRendererDirective(directives.images.Figure):
             literal['language'] = 'python'
             blocks = [literal]
             if 'downloads' in self.options:
+                blocks.append(nodes.Text('Input:     '))
                 for file in self.options['downloads'].split(','):
-                    download = addnodes.download_reference("     ", "    ")
-                    download += nodes.literal(file, "    " + file + "    ")
+                    download = addnodes.download_reference("", "")
+                    download += nodes.literal(file, file)
                     download['reftarget'] = file
                     blocks.append(download)
+                    blocks.append(nodes.Text('     '))
                 blocks.append(nodes.line())
             
         blocks.append(image_node)
@@ -115,17 +118,19 @@ def render_indigorenderer_images(app, doctree):
         try:
             relative_paths, output = render_indigorenderer(app, text, options, os.path.dirname(doctree.attributes['source']), os.path.abspath(os.curdir))
             imgnodes = []
-            for relative_path in relative_paths:
-                newimg = img.copy()
-                newimg['uri'] = relative_path
-                newimg['scale'] = 1.0 / float(len(relative_paths))
-                imgnodes.append(newimg)
-                span = img.copy()
-                span['uri'] = os.path.join(os.path.dirname(app.builder.outdir), '..', 'source', '_images', 'span.png')
-                imgnodes.append(span)
+            if 'noimage' not in options:
+                for relative_path in relative_paths:
+                    newimg = img.copy()
+                    newimg['uri'] = relative_path
+                    newimg['scale'] = 1.0 / float(len(relative_paths))
+                    imgnodes.append(newimg)
+                    span = img.copy()
+                    span['uri'] = os.path.join(os.path.dirname(app.builder.outdir), '..', 'source', '_images', 'span.png')
+                    imgnodes.append(span)
             if output:
-                newline = nodes.line()
-                imgnodes.append(newline)
+                if 'noimage' not in options:
+                    newline = nodes.line()
+                    imgnodes.append(newline)
                 title = nodes.Text('Output:')
                 imgnodes.append(title)
                 literal = nodes.literal_block(output, output)
