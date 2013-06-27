@@ -12,6 +12,7 @@ from indigo_renderer import IndigoRenderer
 from indigo_inchi import IndigoInchi
 from sphinx.errors import SphinxError
 from sphinx.util import relative_uri
+from sphinx import addnodes
 
 DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None)
 
@@ -69,7 +70,8 @@ class IndigoRendererDirective(directives.images.Figure):
         indigoobjecttype = str,
         indigoloadertype = str,
         includecode = str,
-        imagename = str
+        imagename = str,
+        downloads = str
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -85,14 +87,23 @@ class IndigoRendererDirective(directives.images.Figure):
         if isinstance(image_node, nodes.system_message):
             return [image_node, ]
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
+        blocks = []
         if indigorenderer_options['indigoobjecttype'] == 'code':
-             literal = nodes.literal_block(text, text, line=self.lineno)
-             literal['linenos'] = True
-             literal['language'] = 'python'
-             return [literal, image_node]
-        else:
-           return [image_node, ]
-
+            literal = nodes.literal_block(text, text, line=self.lineno)
+            literal['linenos'] = True
+            literal['language'] = 'python'
+            blocks = [literal]
+            if 'downloads' in self.options:
+                for file in self.options['downloads'].split(','):
+                    download = addnodes.download_reference("     ", "    ")
+                    download += nodes.literal(file, "    " + file + "    ")
+                    download['reftarget'] = file
+                    blocks.append(download)
+                blocks.append(nodes.line())
+            
+        blocks.append(image_node)
+           
+        return blocks
 
 def render_indigorenderer_images(app, doctree):
     for img in doctree.traverse(nodes.image):
@@ -118,6 +129,7 @@ def render_indigorenderer_images(app, doctree):
                 title = nodes.Text('Output:')
                 imgnodes.append(title)
                 literal = nodes.literal_block(output, output)
+                literal['classes'] += ['output']
                 imgnodes.append(literal)
             img.replace_self(imgnodes)
         except IndigoRendererError, exc:
