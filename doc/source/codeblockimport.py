@@ -1,6 +1,7 @@
 from docutils import nodes
 from sphinx.errors import SphinxError
 from sphinx.directives import CodeBlock
+from docutils.parsers.rst import directives
 
 codeDict = dict()
 
@@ -14,7 +15,8 @@ class CodeDirective(CodeBlock):
 
     option_spec = dict(
         name = str,
-        includecode = str
+        includecode = str,
+        hidden = directives.flag
     )
 
     def run(self):
@@ -31,12 +33,15 @@ class CodeDirective(CodeBlock):
         if codename in codeDict:
             raise RuntimeError("Code with name " + codename + " has already been defined")
         codeDict[codename] = included_code + "\n\n" + code
+        
+        if 'hidden' in self.options:
+            return []
+            
         nodeList = []
         literal = nodes.literal_block(code, code)
         literal['language'] = 'python'
-        #literal['linenos'] = True
         nodeList.append(literal)
-
+            
         return nodeList
 
 def setup(app):

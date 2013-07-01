@@ -72,7 +72,8 @@ class IndigoRendererDirective(directives.images.Figure):
         includecode = str,
         imagename = str,
         downloads = str,
-        noimage = directives.flag
+        noimage = directives.flag,
+        nocode = directives.flag
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -88,6 +89,8 @@ class IndigoRendererDirective(directives.images.Figure):
         if isinstance(image_node, nodes.system_message):
             return [image_node, ]
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
+        if 'nocode' in self.options:
+            return [image_node, ]
         blocks = []
         if indigorenderer_options['indigoobjecttype'] == 'code':
             literal = nodes.literal_block(text, text, line=self.lineno)
@@ -142,29 +145,35 @@ def render_indigorenderer_images(app, doctree):
             img.replace_self(nodes.literal_block(text, text))
             continue
 
+def replaceRenderedImages (code, absolute_path, relativePath, relativePaths):
+    code = code.replace('result.png', absolute_path)
+
+    result = re.search('result_(.*)\.png', code, re.MULTILINE)
+    while result:
+        new_absolute_path = absolute_path.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf')
+        relativePaths.append(relativePath.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf'))
+        code = code.replace(result.group(0), new_absolute_path)
+        result = re.search('result_(.*)\.png', code, re.MULTILINE)
+    if not len(relativePaths) and relativePath not in relativePaths:
+        relativePaths.append(relativePath)
+    return code
+
 def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options):
     try:
-        if 'includecode' in options:
-            import codeblockimport
-            for name in options['includecode'].split(','):
-                exec(codeblockimport.codeDict[name], globals())
-                
-        text = text.replace('result.png', absolute_path)
-
-        result = re.search('result_(.*)\.png', text, re.MULTILINE)
         relativePaths = []
-        while result:
-            new_absolute_path = absolute_path.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf')
-            relativePaths.append(relativePath.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf'))
-            text = text.replace(result.group(0), new_absolute_path)
-            result = re.search('result_(.*)\.png', text, re.MULTILINE)
-
-        if not len(relativePaths):
-            relativePaths.append(relativePath)
 
         os.chdir(rstdir)
         logger = Logger()
         sys.stdout = logger
+        
+        if 'includecode' in options:
+            import codeblockimport
+            for name in options['includecode'].split(','):
+                code = codeblockimport.codeDict[name]
+                code = replaceRenderedImages(code, absolute_path, relativePath, relativePaths)
+                exec(code, globals())
+                
+        text = replaceRenderedImages(text, absolute_path, relativePath, relativePaths)
         exec(text, globals())
         os.chdir(curdir)
         global outputData
