@@ -12,6 +12,7 @@ Contents:
    api.rst
    resources.rst
    plugins/index.rst
+   concepts/index.rst
    examples/index.rst
    release-notes/index.rst
 
