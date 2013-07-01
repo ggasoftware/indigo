@@ -24,8 +24,10 @@ Summary
  * Indigo Java doesn't remove dll-modules in the temporary directory that results in a faster loading 
  * :ref:`CDXML file format export <indigo-1.1.11-cdxml>`
  * :ref:`New methods to read data from buffers <indigo-1.1.11-buffers>`: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML``
- * Indigo Python API binding works for Python 3
+ * Indigo Python API binding works for Python 3 as well as for Python 2
  * :ref:`New SGroup-related methods <indigo-1.1.11-sgroups>`: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data``
+ * :ref:`New method to remove a set of bonds <indigo-1.1.11-removeBonds>`: ``removeBonds``
+ 
  
 **Bugfixes**:
 
@@ -35,8 +37,8 @@ Summary
    parameter specifies maximum bond length even if image size is specified
  * Either cis-trans flag was ignored in Molfile V3000 loader
  * Indigo options may be used from a previous Indigo instance when new Indigo instance is allocated
- * Transform ...
- * C# dll loader pull request...
+ * Transform throws an exception when called on a molecule from SDF file
+ * .NET bindings interprocess race condition that could happen on the first run. Thanks to dimitry42 for the pull request [#fracecondition]_
  
 *******
 Details
@@ -48,7 +50,7 @@ Details
 Maven Central Repository
 ========================
 
-All the Indigo Java packages are uploaded to `The Central Respository <http://maven.org>`_.
+All the Indigo Java packages are uploaded to `The Central Respository <http://search.maven.org/#search%7Cga%7C1%7Cggasoftware>`_.
 
 ======================   ===============
 GroupId                  ArtifactId
@@ -226,7 +228,30 @@ comments, and splits the whole document on pages.
     indigoRenderer.renderGridToFile(arr, None, 3, "result.cdxml")
     
 .. #TODO# automatically parse "result.cdxml" and insert downloads link
+
+.. _indigo-1.1.11-removeBonds:
+
+-------------------
+removeBonds method
+-------------------
+  
+There is a new method ``removeBonds`` that can remove a set of bonds specified by indices. This method is similar to ``removeAtoms`` method.
+  
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+
+    m = indigo.loadMolecule('OCCC1CNCCN1C')
+    m.layout()
     
+    indigo.setOption("render-bond-ids-visible", "true"); 
+    
+    indigoRenderer.renderToFile(m, 'result_1.png')
+
+    # remove bonds by indices
+    m.removeBonds([1, 3, 6])
+    indigoRenderer.renderToFile(m, 'result_2.png')
+  
 ================
 Rendering module
 ================
@@ -285,3 +310,4 @@ Bond line width
 .. rubric:: Footnotes
 
 .. [#fchiral] Requested by Marcin: https://groups.google.com/d/msg/indigo-general/A8VtF-51viw/E093AE-b-pwJ
+.. [#fracecondition] Pull request by dimitry42: https://github.com/ggasoftware/indigo/pull/6
