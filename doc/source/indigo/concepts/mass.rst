@@ -6,7 +6,7 @@ Different Mass Computation Methods
 
 There are three different methods to compute molecule mass in Indigo:
 
- * ``molecularWeight`` -- returns the molecular weight or the molecular mass, i.e. the average mass of all the isotopic compositions for a given structure.
+ * ``molecularWeight`` -- returns the molecular weight (molecular mass), i.e. the average mass of all the isotopic compositions for a given structure.
  * ``mostAbundantMass`` --  returns the "most abundant isotopes mass", i.e. the mass of a most common isotopic composition.
  * ``monoisotopicMass`` --  returns the monoisotopic mass, i.e. the mass of structure where the most abundant isotope is used for all atoms.
 
@@ -40,7 +40,7 @@ The following code computed molecule formula and three difference masses:
 
     m = indigo.loadMoleculeFromFile('data/csid-370269.mol')
     
-    print "Gross:", m.grossFormula(), "\n"
+    print "Molecule formula:", m.grossFormula(), "\n"
     
     print "molecularWeight = ", m.molecularWeight()
     print "mostAbundantMass =", m.mostAbundantMass()
@@ -70,7 +70,7 @@ Difference of these masses can be explained on another example with a structure 
 There are two relevant carbon isotopes: 12C with 98.9% natural abundance, and 13C with 1.1%.
 
   * ``molecularWeight`` = 1000 * M\ :sub:`C`\
-  * ``mostAbundantMass`` = 989 * M\ :sub:`12C`\ + 11 * M\ :sub:`13C`\
+  * ``mostAbundantMass`` = 989 * M\ :sub:`12C`\ + 11 * M\ :sub:`13C` [#fmostab]_
   * ``monoisotopicMass``  = 1000 * M\ :sub:`12C`\
   
 .. indigorenderer::
@@ -99,4 +99,5 @@ Natural abundance, standard atomic weight, and relative atomic masses are taken 
 .. rubric:: Footnotes
 
 .. [#fiso] Data is computed using the isotopes distribution online calculator `Isotope Distribution Calculator and Mass Spec Plotter service <http://www.sisweb.com/mstools/isotope.htm>`_ from Scientific Instruments Services
+.. [#fmostab] If we pick 1000 random Carbon atoms that forms a structure, then with a high probability there will be 989 of :sup:`12`\C atoms, and 11 of :sup:`13`\C atoms
     
