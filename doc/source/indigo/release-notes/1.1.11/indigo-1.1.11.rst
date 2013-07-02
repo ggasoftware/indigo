@@ -4,7 +4,7 @@
 Indigo 1.1.11
 #############
 
-:Date: 26 June 2013
+:Date: 2 July 2013
 
 *******
 Summary
@@ -14,7 +14,7 @@ Summary
 
  * Fingerprints computation is 2-4 times faster
  * Restored source compatibility with MinGW compiler
- * :ref:`New IndigoObject methods for stereocenters: <indigo-1.1.11-stereocenters-methods>`: ``stereocenterGroup``, ``setStereocenterGroup``, ``markStereobonds``
+ * :ref:`New IndigoObject methods for stereocenters: <indigo-1.1.11-stereocenters-methods>`: ``stereocenterGroup``, ``setStereocenterGroup``, ``markStereobonds`` [#fstereo]_
  * :ref:`New option to specify atom colors individually via s-groups<indigo-1.1.11-atom-coloring>`: ``render-atom-color-property`` 
  * :ref:`New rendering option for bond width <indigo-1.1.11-bond-width>`: ``render-bond-line-width``
  * :ref:`New chirality validation method <indigo-1.1.11-chirality-validation>`: ``validateChirality`` [#fchiral]_
@@ -25,8 +25,8 @@ Summary
  * :ref:`CDXML file format export <indigo-1.1.11-cdxml>`
  * :ref:`New methods to read data from buffers <indigo-1.1.11-buffers>`: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML``
  * Indigo Python API binding works for Python 3 as well as for Python 2
- * :ref:`New SGroup-related methods <indigo-1.1.11-sgroups>`: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data``
- * :ref:`New method to remove a set of bonds <indigo-1.1.11-removeBonds>`: ``removeBonds``
+ * :ref:`New SGroup-related methods <indigo-1.1.11-sgroups>`: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data`` [#fsgroups]_
+ * :ref:`New method to remove a set of bonds <indigo-1.1.11-removeBonds>`: ``removeBonds`` [#fremovebonds]_
  
  
 **Bugfixes**:
@@ -37,8 +37,9 @@ Summary
    parameter specifies maximum bond length even if image size is specified
  * Either cis-trans flag was ignored in Molfile V3000 loader
  * Indigo options may be used from a previous Indigo instance when new Indigo instance is allocated
- * Transform throws an exception when called on a molecule from SDF file
+ * Transform throws an exception when called on a molecule from SDF file [#ftransform]_
  * .NET bindings interprocess race condition that could happen on the first run. Thanks to dimitry42 for the pull request [#fracecondition]_
+ * Molecule with up/down bond is saved as chiral
  
 *******
 Details
@@ -103,7 +104,7 @@ There are new ``stereocenterGroup`` and ``setStereocenterGroup`` method to get/s
     indigo.setOption('render-comment', 'Stereocenter groups and types were changed')
     indigoRenderer.renderToFile(m, 'result_2.png')
     
-The ``markStereobonds`` method set up/down bond marks if a stereoconfiguration were changed manually, or if it should be reset:
+The ``markStereobonds`` method set up/down bond marks if a stereoconfiguration were changed manually, or if it should be reset [#fstereo]_:
     
 .. indigorenderer::
     :indigoobjecttype: code
@@ -150,9 +151,10 @@ if a molecule matches to its mirror and clears chirality flag in this case [#fch
 SGroup methods
 --------------
     
+There are 5 s-groups are support by Indigo, but several methods were missing [#fsgroups]_: 
+    
     * There are new ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit`` methods along with already existing ``getDataSGroup`` and ``getSuperatom``:
     * ``data()`` returns SGroup data information  
-
 
 .. indigorenderer::
     :indigoobjecttype: code
@@ -235,7 +237,7 @@ comments, and splits the whole document on pages.
 removeBonds method
 -------------------
   
-There is a new method ``removeBonds`` that can remove a set of bonds specified by indices. This method is similar to ``removeAtoms`` method.
+There is a new method ``removeBonds`` that can remove a set of bonds specified by indices. This method is similar to ``removeAtoms`` method [#fremovebonds]_.
   
 .. indigorenderer::
     :indigoobjecttype: code
@@ -309,5 +311,9 @@ Bond line width
 
 .. rubric:: Footnotes
 
-.. [#fchiral] Requested by Marcin: https://groups.google.com/d/msg/indigo-general/A8VtF-51viw/E093AE-b-pwJ
+.. [#fstereo] Request by Karen Karapetyan: https://groups.google.com/d/msg/indigo-general/WP4n6jbYLac/_-WjCd0bwYgJ
+.. [#fchiral] Request by Marcin: https://groups.google.com/d/msg/indigo-general/A8VtF-51viw/E093AE-b-pwJ
+.. [#fsgroups] Request from Karen Karapetyan: https://groups.google.com/d/msg/indigo-general/9jFif0s-QtQ/gcr_NQZskR8J
+.. [#fremovebonds] Request from Vincent: https://groups.google.com/d/msg/indigo-general/efPQ81fQt4U/vR8UMv4lXSMJ
+.. [#ftransform] Bug report from Vincent: https://groups.google.com/d/msg/indigo-bugs/lZj_Oe7u_Bc/oh35YIblowcJ
 .. [#fracecondition] Pull request by dimitry42: https://github.com/ggasoftware/indigo/pull/6
