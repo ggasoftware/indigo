@@ -7,14 +7,15 @@
 Indigo Project documentation
 =============================
 
-We have extensive experience and expertise in developing organic chemistry software products for use in pharmaceutical companies, research institutes, and universities. At the same time, we have been developing internally a number of cheminformatics tools, and in 2009, we decided to contribute these tools to the open-source community.
+We have extensive experience and expertise in developing organic chemistry software products for use in pharmaceutical 
+companies, research institutes, and universities. At the same time, we have been developing internally a number of 
+cheminformatics tools, and in 2009, we decided to contribute these tools to the open-source community.
 
 Contents:
 
 .. toctree::
 
    indigo/index.rst
-   bingo/index.rst
 
 Indices and tables
 ==================

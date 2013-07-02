@@ -8,10 +8,6 @@ Contents:
 
 .. toctree::
 
-   concepts.rst
-   api.rst
-   resources.rst
-   plugins/index.rst
    concepts/index.rst
    examples/index.rst
    release-notes/index.rst
@@ -20,9 +16,13 @@ Contents:
 Overview
 ********
 
-Indigo is a universal organic chemistry toolkit. It contains first-class tools for end users, as well as a documented :ref:`API <api>` for developers. Indigo it is completely free and open-source, while also available on a commercial basis.
+Indigo is a universal organic chemistry toolkit. It contains first-class tools for end users, as well as a documented API for developers.
+ Indigo it is completely free and open-source, while also available on a commercial basis.
 
-Indigo is based on a cheminformatics library that incorporates a number of :ref:`unique algorithms <resources_algorithms>` developed by GGA, as well as some standard algorithms well-known in the cheminformatics world. Since the core part of Indigo is written in modern C++ with no third-party code or dependencies except the ubiquitous `zlib <http://zlib.net>`_ and `Cairo <http://cairographics.org>`_, the toolkit provides outstanding performance and excellent portability.
+Indigo is based on a cheminformatics library that incorporates a number of unique algorithms developed by GGA, as well as 
+some standard algorithms well-known in the cheminformatics world. Since the core part of Indigo is written in modern 
+C++ with no third-party code or dependencies except the ubiquitous `zlib <http://zlib.net>`_ and `Cairo <http://cairographics.org>`_, 
+the toolkit provides outstanding performance and excellent portability.
 
 Indigo is used by many corporations and institutions. This includes some Indigo-based commercial tools developed exclusively for our clients. Also, our open-source chemical search engine Bingo is developed on top of the Indigo library.
 
@@ -54,22 +54,11 @@ Features
 Portability
 """""""""""
 
-Indigo is written from scratch in portable C++ and supports Linux, Windows, and Mac OS X operating systems. The rendering is done via `Cairo <http://cairographics.org>`_ vector graphics library. `zlib <http://zlib.net>`_ and `libpng <http://www.libpng.org>`_ are needed for Cairo. `TinyXML <http://www.grinninglizard.com/tinyxml/>`_ is used to parse CML files. No other third-party components are used.
+Indigo is written from scratch in portable C++ and supports Linux, Windows, and Mac OS X operating systems. The rendering 
+is done via `Cairo <http://cairographics.org>`_ vector graphics library. `zlib <http://zlib.net>`_ and `libpng <http://www.libpng.org>`_ 
+are needed for Cairo. `TinyXML <http://www.grinninglizard.com/tinyxml/>`_ is used to parse CML files. `InChI <http://www.inchi-trust.org>`_ library is used to generate and parse InChI strings.
+No other third-party components are used.
 
-Indigo exposes the C interface to applications. Java and Python wrappers are available for all of the supported platforms. For Windows, there is also a .NET wrapper.
+Indigo exposes the C interface to applications. Java, Python, and .NET wrappers are available for all of the supported platforms.
 
 All of the the code of Indigo is thread-safe, and so its use does not present a problem in multi-threaded applications.
-
-"""""""""
-Utilities
-"""""""""
-
-Utilities
-
-.. indigorenderer::
-    :indigoobjecttype: reaction
-    :indigoloadertype: text
-
-    C1=CN=CC=C1.C2CFCC2>>C2CNCC2.C1=CF=CC=C1
-
-End.
