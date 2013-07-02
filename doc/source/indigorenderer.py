@@ -73,7 +73,10 @@ class IndigoRendererDirective(directives.images.Figure):
         imagename = str,
         downloads = str,
         noimage = directives.flag,
-        nocode = directives.flag
+        nocode = directives.flag,
+        includecodefile = str,
+        format = str,
+        nooutputtitle = directives.flag,
     )
 
     option_spec = directives.images.Image.option_spec.copy()
@@ -85,11 +88,12 @@ class IndigoRendererDirective(directives.images.Figure):
                                       if k in self.own_option_spec])
 
         text = '\n'.join(self.content)
+            
         (image_node,) = directives.images.Image.run(self)
         if isinstance(image_node, nodes.system_message):
             return [image_node, ]
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
-        if 'nocode' in self.options:
+        if 'nocode' in self.options or len(text.strip()) == 0:
             return [image_node, ]
         blocks = []
         if indigorenderer_options['indigoobjecttype'] == 'code':
@@ -134,8 +138,9 @@ def render_indigorenderer_images(app, doctree):
                 if 'noimage' not in options:
                     newline = nodes.line()
                     imgnodes.append(newline)
-                title = nodes.Text('Output:')
-                imgnodes.append(title)
+                if 'nooutputtitle' not in options:
+                    title = nodes.Text('Output:')
+                    imgnodes.append(title)
                 literal = nodes.literal_block(output, output)
                 literal['classes'] += ['output']
                 imgnodes.append(literal)
@@ -173,6 +178,17 @@ def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options
                 code = replaceRenderedImages(code, absolute_path, relativePath, relativePaths)
                 exec(code, globals())
                 
+        if 'includecodefile' in options:
+            codefile = options['includecodefile']
+            f = open(codefile)
+            code = f.read()
+            f.close()
+            codedir = os.path.dirname(codefile)
+            code = replaceRenderedImages(code, absolute_path, relativePath, relativePaths)
+            os.chdir(os.path.join(rstdir, codedir))
+            exec(code, globals())
+            os.chdir(rstdir)
+            
         text = replaceRenderedImages(text, absolute_path, relativePath, relativePaths)
         exec(text, globals())
         os.chdir(curdir)
@@ -232,6 +248,9 @@ def render_indigorenderer(app, text, options, rstdir, curdir):
     format_map = DEFAULT_FORMATS.copy()
     format_map.update(app.builder.config.indigorenderer_format)
     output_format = format_map[app.builder.format]
+    if 'format' in options:
+        output_format = options['format']
+        
     hashid = get_hashid(text, options)
     output_filename = 'indigorenderer_%s.%s' % (hashid, output_format) if not 'imagename' in options else options['imagename'] + '.' + output_format
     relative_path = ''
