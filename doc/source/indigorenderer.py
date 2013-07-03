@@ -128,11 +128,11 @@ def render_indigorenderer_images(app, doctree):
             if 'noimage' not in options:
                 for relative_path in relative_paths:
                     newimg = img.copy()
-                    newimg['uri'] = relative_path
+                    newimg['uri'] = relative_path.replace('\\', '/')
                     newimg['scale'] = 1.0 / float(len(relative_paths))
                     imgnodes.append(newimg)
                     span = img.copy()
-                    span['uri'] = os.path.join(os.path.dirname(app.builder.outdir), '..', 'source', '_images', 'span.png')
+                    span['uri'] = relative_uri(app.builder.env.docname, '_static') + '/span.png'
                     imgnodes.append(span)
             if output:
                 if 'noimage' not in options:
