@@ -12,10 +12,9 @@ class CodeExampleDirective(CodeBlock):
     has_content = True
     required_arguments = 0
     optional_arguments = 2
-    
+
     option_spec = dict(
         language = str,
-        light = bool
     )
 
     def translateCode(self, code, outputLanguage):
@@ -43,11 +42,8 @@ class CodeExampleDirective(CodeBlock):
 
         specified_language = self.options.get('language')
         light = self.options.get('light', False)
-            
+
         nodeList = []
-        if not light:
-            line = nodes.transition()
-            nodeList.append(line)
         languageDict = {'python': 'Python', 'java': 'Java', 'csharp': 'C#'}
         for language in languageDict:
             if specified_language is not None and specified_language != language:
@@ -55,18 +51,13 @@ class CodeExampleDirective(CodeBlock):
             if not light:
                 language_title = nodes.Text(languageDict[language] + ':', language)
                 nodeList.append(language_title)
-                
+
             literal = nodes.literal_block(self.translateCode(code, language), self.translateCode(code, language))
             literal['language'] = language
-            literal['linenos'] = 'linenos' in self.options
             if hl_lines is not None:
                 literal['highlight_args'] = {'hl_lines': hl_lines}
             set_source_info(self, literal)
             nodeList.append(literal)
-        if not light:
-            line = nodes.transition()
-            nodeList.append(line)
-        #TODO: execute python code
         return nodeList
 
 def setup(app):

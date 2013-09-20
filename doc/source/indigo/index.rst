@@ -1,7 +1,4 @@
 .. indigo documentation master file, created by
-   sphinx-quickstart on Tue Feb 14 17:41:27 2012.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 ######
 Indigo
@@ -11,20 +8,23 @@ Contents:
 
 .. toctree::
 
-   concepts.rst
-   api.rst
-   resources.rst
-   plugins/index.rst
+   concepts/index.rst
+   examples/index.rst
+   release-notes/index.rst
 
 ********
 Overview
 ********
 
-Indigo is a universal organic chemistry toolkit. It contains first-class tools for end users, as well as a documented :ref:`API <api>` for developers. Indigo it is completely free and open-source, while also available on a commercial basis.
+Indigo is a universal organic chemistry toolkit. It contains first-class tools for end users, as well as a documented API for developers.
+ Indigo it is completely free and open-source, while also available on a commercial basis.
 
-Indigo is based on a cheminformatics library that incorporates a number of :ref:`unique algorithms <resources_algorithms>` developed by GGA, as well as some standard algorithms well-known in the cheminformatics world. Since the core part of Indigo is written in modern C++ with no third-party code or dependencies except the ubiquitous `zlib <http://zlib.net>`_ and `Cairo <http://cairographics.org>`_, the toolkit provides outstanding performance and excellent portability.
+Indigo is based on a cheminformatics library that incorporates a number of unique algorithms developed by GGA, as well as 
+some standard algorithms well-known in the cheminformatics world. Since the core part of Indigo is written in modern 
+C++ with no third-party code or dependencies except the ubiquitous `zlib <http://zlib.net>`_ and `Cairo <http://cairographics.org>`_, 
+the toolkit provides outstanding performance and excellent portability.
 
-Indigo is used by many corporations and institutions. This includes some Indigo-based commercial tools developed exclusively for our clients. Also, our open-source chemical search engine :ref:`Bingo <bingo>` is developed on top of the Indigo library.
+Indigo is used by many corporations and institutions. This includes some Indigo-based commercial tools developed exclusively for our clients. Also, our open-source chemical search engine Bingo is developed on top of the Indigo library.
 
 Indigo SDK does not make any restrictions for developers. Whatever your favorite platform is—Java, C#, or Python, not to mention plain C—you can easily integrate Indigo into your application. All problems you may be afraid of, such as loading binary modules appropriate for the system, or threading issues, or stack overflows, are already solved for you. Also, it is easy to start, as the interface is very neat. No data types besides the absolute minimum required for it to work. No internal data formats. No painful initialization procedures.
 
@@ -54,14 +54,11 @@ Features
 Portability
 """""""""""
 
-Indigo is written from scratch in portable C++ and supports Linux, Windows, and Mac OS X operating systems. The rendering is done via `Cairo <http://cairographics.org>`_ vector graphics library. `zlib <http://zlib.net>`_ and `libpng <http://www.libpng.org>`_ are needed for Cairo. `TinyXML <http://www.grinninglizard.com/tinyxml/>`_ is used to parse CML files. No other third-party components are used.
+Indigo is written from scratch in portable C++ and supports Linux, Windows, and Mac OS X operating systems. The rendering 
+is done via `Cairo <http://cairographics.org>`_ vector graphics library. `zlib <http://zlib.net>`_ and `libpng <http://www.libpng.org>`_ 
+are needed for Cairo. `TinyXML <http://www.grinninglizard.com/tinyxml/>`_ is used to parse CML files. `InChI <http://www.inchi-trust.org>`_ library is used to generate and parse InChI strings.
+No other third-party components are used.
 
-Indigo exposes the C interface to applications. Java and Python wrappers are available for all of the supported platforms. For Windows, there is also a .NET wrapper.
+Indigo exposes the C interface to applications. Java, Python, and .NET wrappers are available for all of the supported platforms.
 
 All of the the code of Indigo is thread-safe, and so its use does not present a problem in multi-threaded applications.
-
-"""""""""
-Utilities
-"""""""""
-
-Utilities

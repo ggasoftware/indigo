@@ -12,7 +12,7 @@ else:
 
 builder = 'html'    
     
-lst = [fn, '-c', 'source', '-b', builder, 'source/indigo', 'build/' + builder]
+lst = [fn, '-c', 'source', '-b', builder, 'source', 'build/' + builder]
 
 images_dir = 'build/' + builder + '/_images'
 if not os.path.exists(images_dir):
