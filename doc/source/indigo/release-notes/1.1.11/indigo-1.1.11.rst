@@ -14,19 +14,19 @@ Summary
 
  * Fingerprints computation is 2-4 times faster
  * Restored source compatibility with MinGW compiler
- * :ref:`New IndigoObject methods for stereocenters: <indigo-1.1.11-stereocenters-methods>`: ``stereocenterGroup``, ``setStereocenterGroup``, ``markStereobonds`` [#fstereo]_
- * :ref:`New option to specify atom colors individually via s-groups<indigo-1.1.11-atom-coloring>`: ``render-atom-color-property`` 
- * :ref:`New rendering option for bond width <indigo-1.1.11-bond-width>`: ``render-bond-line-width``
- * :ref:`New chirality validation method <indigo-1.1.11-chirality-validation>`: ``validateChirality`` [#fchiral]_
- * Indigo Java API uses Maven instead of Ant for building
- * :ref:`Maven repository for Indigo Java API packages <indigo-1.1.11-maven>`
+ * New IndigoObject methods for stereocenters: ``stereocenterGroup``, ``setStereocenterGroup``, ``markStereobonds`` [#fstereo]_ (:ref:`details <indigo-1.1.11-stereocenters-methods>`)
+ * New option to specify atom colors individually via s-groups: ``render-atom-color-property`` (:ref:`details <indigo-1.1.11-atom-coloring>`)
+ * New rendering option for bond width: ``render-bond-line-width`` (:ref:`details <indigo-1.1.11-bond-width>`)
+ * New chirality validation method: ``validateChirality`` [#fchiral]_
+ * Indigo Java API uses Maven instead of Ant for building (:ref:`details <indigo-1.1.11-chirality-validation>`)
+ * Maven repository for Indigo Java API packages (:ref:`details <indigo-1.1.11-maven>`)
  * New method that releases memory for the Indigo Object: ``dispose`` 
  * Indigo Java doesn't remove dll-modules in the temporary directory that results in a faster loading 
- * :ref:`CDXML file format export <indigo-1.1.11-cdxml>`
- * :ref:`New methods to read data from buffers <indigo-1.1.11-buffers>`: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML``
+ * CDXML file format export (:ref:`details <indigo-1.1.11-cdxml>`)
+ * New methods to read data from buffers: ``loadBuffer``, ``loadString``, ``iterateSDF``, ``iterateSmiles``, ``iterateCML`` (:ref:`details <indigo-1.1.11-buffers>`)
  * Indigo Python API binding works for Python 3 as well as for Python 2
- * :ref:`New SGroup-related methods <indigo-1.1.11-sgroups>`: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data`` [#fsgroups]_
- * :ref:`New method to remove a set of bonds <indigo-1.1.11-removeBonds>`: ``removeBonds`` [#fremovebonds]_
+ * New SGroup-related methods: ``getGenericSGroup``, ``getMultipleGroup``, ``getRepeatingUnit``, ``data`` [#fsgroups]_ (:ref:`details <indigo-1.1.11-sgroups>`)
+ * New method to remove a set of bonds: ``removeBonds`` [#fremovebonds]_ (:ref:`Details <indigo-1.1.11-removeBonds>`)
  
  
 **Bugfixes**:
