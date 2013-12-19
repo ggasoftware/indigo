@@ -1,8 +1,8 @@
 .. _indigo-1.1.x-release-notes:
 
-#############
+#################################
 Previous Versions (before 1.1.11)
-#############
+#################################
 
 Indigo 1.1.10
 -------------
@@ -622,7 +622,7 @@ New functionality since Indigo-1.0.0 stable version:
    | Thanks to Daniel Lowe for pointing out that this functionality is missing. Code examples can be found in this thread: http://groups.google.com/group/indigo-general/browse_thread/thread/d8a413a88b9da834
 -  addRSite method for adding R-site atoms to the molecule. This method
    is similar to addAtom.
-    Code example: ``atom = mol.addRSite("R1")``
+   Code example: ``atom = mol.addRSite("R1")``
 
 Fixed:
 
