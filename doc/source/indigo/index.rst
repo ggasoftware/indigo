@@ -9,6 +9,7 @@ Contents:
 .. toctree::
 
    concepts/index.rst
+   options/index.rst
    examples/index.rst
    release-notes/index.rst
 
