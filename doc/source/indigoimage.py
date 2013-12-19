@@ -7,7 +7,7 @@ from indigo_inchi import IndigoInchi
 from sphinx.errors import SphinxError
 from sphinx.util import relative_uri
 
-DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None)
+DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None, xml=None)
 
 class IndigoImageError(SphinxError):
     category = 'IndigoImage error'
@@ -41,6 +41,8 @@ def render_indigoimage_images(app, doctree):
         options = img.indigoimage['options']
         try:
             relative_path = get_relative_path(app, text, options)
+            if relative_path:
+                relative_path = relative_path.replace('\\', '/')
             img['uri'] = relative_path
 
         except IndigoImageError, exc:
@@ -52,6 +54,8 @@ def get_relative_path(app, text, options):
     # Reset Indigo to use new fresh options
     format_map = DEFAULT_FORMATS.copy()
     output_format = format_map[app.builder.format]
+    if output_format is None:
+        return None
     output_filename = options['imagename'] + '.' + output_format
 
     if app.builder.format == 'html':
