@@ -94,7 +94,7 @@ class IndigoRendererDirective(directives.images.Figure):
 
         if 'codename' in indigorenderer_options:
             registerCodeDict(indigorenderer_options['codename'], text)
-            
+
         (image_node,) = directives.images.Image.run(self)
         if isinstance(image_node, nodes.system_message):
             return [image_node, ]
@@ -116,9 +116,9 @@ class IndigoRendererDirective(directives.images.Figure):
                     blocks.append(download)
                     blocks.append(nodes.Text('     '))
                 blocks.append(nodes.line())
-            
+
         blocks.append(image_node)
-           
+
         return blocks
 
 def render_indigorenderer_images(app, doctree):
@@ -160,51 +160,83 @@ def render_indigorenderer_images(app, doctree):
             img.replace_self(nodes.literal_block(text, text))
             continue
 
-def replaceRenderedImages (code, absolute_path, relativePath, relativePaths):
-    found = (code.find('result.png') != -1)
+def expandRelativePaths (relPath):
+    print(os.getcwd())
+    if relPath.find("%d") == -1:
+        return [relPath]
+    paths = []
+    for i in range(10):
+        path = relPath % (i)
+        if os.path.exists(path):
+            paths.append(path)
+    return paths
 
-    code = code.replace('result.png', absolute_path)
+def replaceRenderedImages (code, absolute_path, relativePath):
+    found = (code.find('result.png') != -1)
+    paths = []
+    if found:
+        code = code.replace('result.png', absolute_path)
+        paths.append((absolute_path, relativePath))
 
     result = re.search('result_(.*)\.png', code, re.MULTILINE)
     while result:
         new_absolute_path = absolute_path.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf')
-        relativePaths.append(relativePath.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf'))
+        new_relative_path = relativePath.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf')
         code = code.replace(result.group(0), new_absolute_path)
         result = re.search('result_(.*)\.png', code, re.MULTILINE)
         found = True
+        paths.append((new_absolute_path, new_relative_path))
 
-    if not len(relativePaths) and relativePath not in relativePaths and found:
-        relativePaths.append(relativePath)
-    return code
+    return code, paths
+
+def appendRelativePaths (paths, relativePaths):
+    for abs_path, rel_path in paths:
+        if os.path.exists(abs_path):
+            if rel_path not in relativePaths:
+                relativePaths.append(rel_path)
+        if abs_path.find("%d") != -1:
+            for i in range(10):
+                if os.path.exists(abs_path % i):
+                    if rel_path % i not in relativePaths:
+                        relativePaths.append(rel_path % i)
+
 
 def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options):
     try:
         relativePaths = []
-    
+
         os.chdir(rstdir)
         logger = Logger()
         sys.stdout = logger
-        
+
+        all_paths = []
+
         if 'includecode' in options:
             import codeblockimport
             for name in options['includecode'].split(','):
                 code = codeblockimport.codeDict[name]
-                code = replaceRenderedImages(code, absolute_path, relativePath, relativePaths)
+                code, paths = replaceRenderedImages(code, absolute_path, relativePath)
                 exec(code, globals())
-                
+                all_paths += paths
+                appendRelativePaths(all_paths, relativePaths)
+
         if 'includecodefile' in options:
             codefile = options['includecodefile']
             f = open(codefile)
             code = f.read()
             f.close()
             codedir = os.path.dirname(codefile)
-            code = replaceRenderedImages(code, absolute_path, relativePath, relativePaths)
+            paths = []
+            code, paths = replaceRenderedImages(code, absolute_path, relativePath)
             os.chdir(os.path.join(rstdir, codedir))
             exec(code, globals())
+            appendRelativePaths(paths, relativePaths)
             os.chdir(rstdir)
-            
-        text = replaceRenderedImages(text, absolute_path, relativePath, relativePaths)
+
+        text, paths = replaceRenderedImages(text, absolute_path, relativePath)
+        all_paths += paths
         exec(text, globals())
+        appendRelativePaths(all_paths, relativePaths)
         os.chdir(curdir)
         global outputData
         sys.stdout = sys.__stdout__
@@ -264,7 +296,7 @@ def render_indigorenderer(app, text, options, rstdir, curdir):
     output_format = format_map[app.builder.format]
     if 'format' in options:
         output_format = options['format']
-        
+
     if output_format  is None:
         return
 
