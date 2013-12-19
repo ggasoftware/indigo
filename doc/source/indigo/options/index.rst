@@ -5,7 +5,7 @@ Options
 Contents:
 
 .. toctree::
-    :maxdepth: 0
+    :maxdepth: 2
 
     input-output-options.rst
     layout-options.rst

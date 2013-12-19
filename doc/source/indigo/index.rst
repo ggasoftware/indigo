@@ -7,6 +7,7 @@ Indigo
 Contents:
 
 .. toctree::
+   :maxdepth: 2
 
    concepts/index.rst
    options/index.rst

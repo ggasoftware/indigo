@@ -14,6 +14,7 @@ cheminformatics tools, and in 2009, we decided to contribute these tools to the 
 Contents:
 
 .. toctree::
+   :maxdepth: 2
 
    indigo/index.rst
 
