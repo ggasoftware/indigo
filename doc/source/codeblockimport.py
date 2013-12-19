@@ -8,6 +8,11 @@ codeDict = dict()
 class CodeError(SphinxError):
     category = "Code error"
 
+def registerCodeDict (name, code):
+    if name in codeDict:
+        raise RuntimeError("Code with name " + codename + " has already been defined")
+    codeDict[name] = code
+
 class CodeDirective(CodeBlock):
     has_content = True
     required_arguments = 0
@@ -30,9 +35,7 @@ class CodeDirective(CodeBlock):
             for name in self.options['includecode'].split(','):
                 included_code += codeDict[name] + "\n"
         
-        if codename in codeDict:
-            raise RuntimeError("Code with name " + codename + " has already been defined")
-        codeDict[codename] = included_code + "\n\n" + code
+        registerCodeDict(codename, included_code + "\n\n" + code)
         
         if 'hidden' in self.options:
             return []

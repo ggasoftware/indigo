@@ -14,7 +14,9 @@ from sphinx.errors import SphinxError
 from sphinx.util import relative_uri
 from sphinx import addnodes
 
-DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None)
+from codeblockimport import registerCodeDict
+
+DEFAULT_FORMATS = dict(html='svg', latex='pdf', text=None, xml=None)
 
 indigo = None
 indigoRenderer = None
@@ -71,6 +73,7 @@ class IndigoRendererDirective(directives.images.Figure):
         indigoloadertype = str,
         includecode = str,
         imagename = str,
+        codename = str,
         downloads = str,
         noimage = directives.flag,
         nocode = directives.flag,
@@ -88,6 +91,9 @@ class IndigoRendererDirective(directives.images.Figure):
                                       if k in self.own_option_spec])
 
         text = '\n'.join(self.content)
+
+        if 'codename' in indigorenderer_options:
+            registerCodeDict(indigorenderer_options['codename'], text)
             
         (image_node,) = directives.images.Image.run(self)
         if isinstance(image_node, nodes.system_message):
@@ -123,7 +129,11 @@ def render_indigorenderer_images(app, doctree):
         text = img.indigorenderer['text']
         options = img.indigorenderer['options']
         try:
-            relative_paths, output = render_indigorenderer(app, text, options, os.path.dirname(doctree.attributes['source']), os.path.abspath(os.curdir))
+            res = render_indigorenderer(app, text, options, os.path.dirname(doctree.attributes['source']), os.path.abspath(os.curdir))
+            if res is None:
+                continue
+
+            relative_paths, output = res
             imgnodes = []
             if 'noimage' not in options:
                 for relative_path in relative_paths:
@@ -151,6 +161,8 @@ def render_indigorenderer_images(app, doctree):
             continue
 
 def replaceRenderedImages (code, absolute_path, relativePath, relativePaths):
+    found = (code.find('result.png') != -1)
+
     code = code.replace('result.png', absolute_path)
 
     result = re.search('result_(.*)\.png', code, re.MULTILINE)
@@ -159,14 +171,16 @@ def replaceRenderedImages (code, absolute_path, relativePath, relativePaths):
         relativePaths.append(relativePath.replace('.png', result.group(1) + '.png').replace('.svg', result.group(1) + '.svg').replace('.pdf', result.group(1) + '.pdf'))
         code = code.replace(result.group(0), new_absolute_path)
         result = re.search('result_(.*)\.png', code, re.MULTILINE)
-    if not len(relativePaths) and relativePath not in relativePaths:
+        found = True
+
+    if not len(relativePaths) and relativePath not in relativePaths and found:
         relativePaths.append(relativePath)
     return code
 
 def executeIndigoCode(text, absolute_path, relativePath, rstdir, curdir, options):
     try:
         relativePaths = []
-
+    
         os.chdir(rstdir)
         logger = Logger()
         sys.stdout = logger
@@ -251,6 +265,9 @@ def render_indigorenderer(app, text, options, rstdir, curdir):
     if 'format' in options:
         output_format = options['format']
         
+    if output_format  is None:
+        return
+
     hashid = get_hashid(text, options)
     output_filename = 'indigorenderer_%s.%s' % (hashid, output_format) if not 'imagename' in options else options['imagename'] + '.' + output_format
     relative_path = ''
