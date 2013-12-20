@@ -329,17 +329,44 @@ Rendering options
 
 .. indigo_option::
     :name: render-aam-color
-    :type: string
-    :default: -
-    :short: -
+    :type: color
+    :default: black
+    :short: Atom-by-atom mapping indices color in reactions.
 
-.. dsfasdfasdfasdf
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        rxn = indigo.loadReactionFromFile("data/amiderxn2.rxn")
+        rxn.automap()
+        renderWithOptions(rxn, "render-aam-color", ["0.1, 0.5, 0.7"] )
 
 .. indigo_option::
     :name: render-atom-color-property
-    :type: -
-    :default: -
-    :short: -
+    :type: string
+    :default: none
+    :short: S-group name for atom colors
+
+    Indigo can use a specified color for each atom and interpolate these colors for bond rendering.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+
+        # Load structure
+        m = indigo.loadMolecule('CC(=C)C1=C(C)C(C)=CC(O)=C1NCCCCC=O')
+        
+        # Add data sgroups with 'color' description
+        m.addDataSGroup([0, 1, 2, 3], [], "color", "0.155, 0.55, 0.955")
+        m.addDataSGroup([4, 5, 6, 16, 17, 18], [], "color", "0.955, 0.155, 0.155")
+        
+        indigo.setOption("render-atom-color-property", "color")
+        indigo.setOption('render-coloring', False)
+        indigoRenderer.renderToFile(m, 'result.png')
+
+    See :ref:`indigo-example-atom-coloring` for a larger example.
 
 .. indigo_option::
     :name: render-bold-bond-detection
