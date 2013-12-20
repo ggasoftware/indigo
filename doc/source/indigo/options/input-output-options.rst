@@ -13,11 +13,11 @@ Generic options
     .. indigorenderer::
         :indigoobjecttype: code
         :indigoloadertype: code
-        :downloads: molecules/stereoerrors.mol
+        :downloads: data/stereoerrors.mol
         :nocode:
 
         indigo.setOption("ignore-stereochemistry-errors", True)
-        m = indigo.loadMoleculeFromFile('molecules/stereoerrors.mol')
+        m = indigo.loadMoleculeFromFile('data/stereoerrors.mol')
         indigoRenderer.renderToFile(m, 'result.png')
 
     Stereobond near Oxygen atom is probably set in a wrong direction bny mistake, and when loaded with Indigo one gets an exception about invalid stereobonds configuration:
@@ -25,12 +25,12 @@ Generic options
     .. indigorenderer::
         :indigoobjecttype: code
         :indigoloadertype: code
-        :downloads: molecules/stereoerrors.mol
+        :downloads: data/stereoerrors.mol
         :noimage:
 
         # Load structure and get exception about stereocenters
         try:
-            m = indigo.loadMoleculeFromFile('molecules/stereoerrors.mol')
+            m = indigo.loadMoleculeFromFile('data/stereoerrors.mol')
         except IndigoException, ex:
             print("Exception: " + str(ex))
 
@@ -43,7 +43,7 @@ Generic options
         :noimage:
 
         indigo.setOption("ignore-stereochemistry-errors", True)
-        m = indigo.loadMoleculeFromFile('molecules/stereoerrors.mol')
+        m = indigo.loadMoleculeFromFile('data/stereoerrors.mol')
 
     All other valid stereocenters are loaded. All stereobond marks are also loaded even if they correspond to an invalid stereocenter. In the example below we see that ``layout`` methods marked only valid stereocenter.
 
@@ -79,10 +79,10 @@ Generic options
     .. indigorenderer::
         :indigoobjecttype: code
         :indigoloadertype: code
-        :downloads: molecules/noncritial_query.mol
+        :downloads: data/noncritial_query.mol
 
         # Load structure and get exception about stereocenters
-        query = indigo.loadQueryMoleculeFromFile('molecules/noncritial_query.mol')
+        query = indigo.loadQueryMoleculeFromFile('data/noncritial_query.mol')
         indigoRenderer.renderToFile(query, 'result.png')
 
     When such query molecule is loaded as ordinary molecule Indigo throws an exception about query features:
@@ -93,7 +93,7 @@ Generic options
 
         # Load structure and get exception about query features
         try:
-            m = indigo.loadMoleculeFromFile('molecules/noncritial_query.mol')
+            m = indigo.loadMoleculeFromFile('data/noncritial_query.mol')
         except IndigoException, ex:
             print("Exception: " + str(ex))
 
@@ -104,5 +104,5 @@ Generic options
         :indigoloadertype: code
 
         indigo.setOption("ignore-noncritical-query-features", True)
-        m = indigo.loadMoleculeFromFile('molecules/noncritial_query.mol')
+        m = indigo.loadMoleculeFromFile('data/noncritial_query.mol')
         indigoRenderer.renderToFile(m, 'result.png')

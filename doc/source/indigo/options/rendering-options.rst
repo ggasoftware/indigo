@@ -48,7 +48,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-coloring', [ True, False ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-coloring', [ True, False ])
 
 .. indigo_option::
     :name: render-bond-length
@@ -65,7 +65,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-bond-length', [ 10, 20, 40 ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-bond-length', [ 10, 20, 40 ])
 
 .. indigo_option::
     :name: render-image-size
@@ -83,7 +83,7 @@ Rendering options
         :nocode:
 
         indigo.setOption("render-bond-length", -1)
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-image-size', [ "300, 200", "200, 100" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-image-size', [ "300, 200", "200, 100" ])
 
 
 .. indigo_option::
@@ -106,7 +106,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-base-color', [ "0, 0, 1", "0.1, 0.7, 0.4" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-base-color', [ "0, 0, 1", "0.1, 0.7, 0.4" ])
 
 .. indigo_option::
     :name: render-background-color
@@ -121,7 +121,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-background-color', [ "0.8, 0.8, 0.8", "0.7, 1, 1" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-background-color', [ "0.8, 0.8, 0.8", "0.7, 1, 1" ])
 
     Combination of both ``render-background-color`` and ``render-base-color`` can be used to get negative:
 
@@ -129,7 +129,7 @@ Rendering options
         :indigoobjecttype: code
         :indigoloadertype: code
 
-        m = indigo.loadMoleculeFromFile('molecules/render_example1.mol')
+        m = indigo.loadMoleculeFromFile('data/render_example1.mol')
 
         indigo.setOption("render-background-color", "0, 0, 0")
         indigo.setOption("render-base-color", "1, 1, 1")
@@ -161,7 +161,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-label-mode', [ "all", "terminal-hetero", "hetero", "none" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-label-mode', [ "all", "terminal-hetero", "hetero", "none" ])
 
 
 .. indigo_option::
@@ -185,7 +185,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example2.mol', 'render-implicit-hydrogens-visible', [ True, False ])
+        renderMolfileWithOptions('data/render_example2.mol', 'render-implicit-hydrogens-visible', [ True, False ])
 
 .. indigo_option::
     :name: render-comment-font-size
@@ -200,7 +200,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-comment-font-size', [ 15, 20, 25 ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-comment-font-size', [ 15, 20, 25 ])
 
 .. indigo_option::
     :name: render-comment-color
@@ -215,7 +215,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example3.mol', 'render-comment-color', [ "0, 0, 0", "0, 0.4, 0.5" ])
+        renderMolfileWithOptions('data/render_example3.mol', 'render-comment-color', [ "0, 0, 0", "0, 0.4, 0.5" ])
 
 .. indigo_option::
     :name: render-bond-line-width
@@ -230,7 +230,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-bond-line-width', [ 0.5, 1, 2 ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-bond-line-width', [ 0.5, 1, 2 ])
 
 
 .. indigo_option::
@@ -246,7 +246,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-relative-thickness', [ 0.5, 1, 2 ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-relative-thickness', [ 0.5, 1, 2 ])
 
 .. indigo_option::
     :name: render-comment
@@ -272,7 +272,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-comment-position', [ "top", "bottom" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-comment-position', [ "top", "bottom" ])
 
 .. indigo_option::
     :name: render-comment-offset
@@ -287,7 +287,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example1.mol', 'render-comment-offset', [ 0, 10, 20 ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-comment-offset', [ 0, 10, 20 ])
 
 .. indigo_option::
     :name: render-atom-ids-visible
@@ -302,7 +302,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example3.mol', 'render-atom-ids-visible', [ True, False ])
+        renderMolfileWithOptions('data/render_example3.mol', 'render-atom-ids-visible', [ True, False ])
 
 .. indigo_option::
     :name: render-bond-ids-visible
@@ -317,7 +317,7 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('molecules/render_example3.mol', 'render-bond-ids-visible', [ True, False ])
+        renderMolfileWithOptions('data/render_example3.mol', 'render-bond-ids-visible', [ True, False ])
 
 .. indigo_option::
     :name: render-atom-bond-ids-from-one
