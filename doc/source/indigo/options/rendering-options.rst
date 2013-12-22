@@ -16,31 +16,38 @@ Rendering options
             indigo.setOption("render-comment", "%s=%s" % (name, value))
             indigoRenderer.renderToFile(mol, 'result_%d.png' % (idx))
 
-    def renderMolfileWithOptions (molfile, name, optvalues):
+    def renderMolfileWithOptions (molfile, name, optvalues, draw_default=False):
         mol = indigo.loadMoleculeFromFile(molfile)
-        renderWithOptions(mol, name, optvalues)
+        renderWithOptions(mol, name, optvalues, draw_default=draw_default)
+
+    def renderRxnfileWithOptions (rxnfile, name, optvalues):
+        rxn = indigo.loadReactionFromFile(rxnfile)
+        renderWithOptions(rxn, name, optvalues)
 
 .. indigo_option::
     :name: render-output-format
     :type: string
-    :default: -
+    :default: automatic
     :short:
         Image file format.
 
     If this option is not set, then Indigo deduces image format from the file extension.
     Supported formats:
-        - png
-        - pdf
-        - svg
-        - emf (windows)
-        - cdxml (not all options are supported)
+    
+    * png
+    * pdf
+    * svg
+    * emf (windows)
+    * cdxml (not all options are supported)
 
 .. indigo_option::
-    :name: render-coloring
-    :type: boolean
-    :default: false
+    :name: render-image-size
+    :type: size
+    :default: -
     :short:
-        Turn on atom coloring, e.g. nitrogen is blue, oxygen is red, etc.
+        Width and height of target image.
+
+        If not set, is calculated automatically according to ``render-bond-length``. To reset this setting, you can set the values of width and height to -1. This options defines both width and height that can be set independently via ``render-image-width`` and ``render-image-height`` options.
 
     .. indigorenderer::
         :indigoobjecttype: code
@@ -48,7 +55,8 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        renderMolfileWithOptions('data/render_example1.mol', 'render-coloring', [ True, False ])
+        indigo.setOption("render-bond-length", -1)
+        renderMolfileWithOptions('data/render_example1.mol', 'render-image-size', [ "300, 200", "200, 100" ])
 
 .. indigo_option::
     :name: render-bond-length
@@ -68,13 +76,11 @@ Rendering options
         renderMolfileWithOptions('data/render_example1.mol', 'render-bond-length', [ 10, 20, 40 ])
 
 .. indigo_option::
-    :name: render-image-size
-    :type: size
-    :default: -
+    :name: render-relative-thickness
+    :type: float
+    :default: 1.0
     :short:
-        Width and height of target image.
-
-        If not set, is calculated automatically according to ``render-bond-length``. To reset this setting, you can set the values of width and height to -1.
+        Set the thickness of bonds and atom labels to X/30 of the average bond length.
 
     .. indigorenderer::
         :indigoobjecttype: code
@@ -82,9 +88,32 @@ Rendering options
         :includecode: render-with-different-options
         :nocode:
 
-        indigo.setOption("render-bond-length", -1)
-        renderMolfileWithOptions('data/render_example1.mol', 'render-image-size', [ "300, 200", "200, 100" ])
+        renderMolfileWithOptions('data/render_example1.mol', 'render-relative-thickness', [ 0.5, 1, 2 ])
 
+
+.. indigo_option::
+    :name: render-image-width
+    :type: int
+    :default: -
+    :short: Image width
+
+.. indigo_option::
+    :name: render-image-height
+    :type: int
+    :default: -
+    :short: Image height
+
+.. indigo_option::
+    :name: render-image-max-width
+    :type: int
+    :default: -
+    :short: Maximum image width
+
+.. indigo_option::
+    :name: render-image-max-height
+    :type: int
+    :default: -
+    :short: Maximum image height
 
 .. indigo_option::
     :name: render-margins
@@ -92,6 +121,21 @@ Rendering options
     :default: -
     :short:
         Horizontal and vertical margins around the image, in pixels.
+
+.. indigo_option::
+    :name: render-coloring
+    :type: boolean
+    :default: false
+    :short:
+        Turn on atom coloring, e.g. nitrogen is blue, oxygen is red, etc.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        renderMolfileWithOptions('data/render_example1.mol', 'render-coloring', [ True, False ])
 
 .. indigo_option::
     :name: render-base-color
@@ -163,15 +207,6 @@ Rendering options
 
         renderMolfileWithOptions('data/render_example1.mol', 'render-label-mode', [ "all", "terminal-hetero", "hetero", "none" ])
 
-
-.. indigo_option::
-    :name: render-highlighted-atoms-visible
-    :type: boolean
-    :default: False
-    :short:
-        Always show labels of highlighted atoms.
-
-
 .. indigo_option::
     :name: render-implicit-hydrogens-visible
     :type: boolean
@@ -231,22 +266,6 @@ Rendering options
         :nocode:
 
         renderMolfileWithOptions('data/render_example1.mol', 'render-bond-line-width', [ 0.5, 1, 2 ])
-
-
-.. indigo_option::
-    :name: render-relative-thickness
-    :type: float
-    :default: 1.0
-    :short:
-        Set the thickness of bonds and atom labels to X/30 of the average bond length.
-
-    .. indigorenderer::
-        :indigoobjecttype: code
-        :indigoloadertype: code
-        :includecode: render-with-different-options
-        :nocode:
-
-        renderMolfileWithOptions('data/render_example1.mol', 'render-relative-thickness', [ 0.5, 1, 2 ])
 
 .. indigo_option::
     :name: render-comment
@@ -370,103 +389,213 @@ Rendering options
 
 .. indigo_option::
     :name: render-bold-bond-detection
-    :type: -
-    :default: -
-    :short: -
+    :type: boolean
+    :default: true
+    :short: Detect and draw bold bond for Haworth projection
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/bold-bond.mol
+
+        renderMolfileWithOptions('data/bold-bond.mol', 'render-bold-bond-detection', [ True, False ])
 
 .. indigo_option::
     :name: render-catalysts-placement
-    :type: -
-    :default: -
-    :short: -
+    :type: enum
+    :default: above-and-below
+    :short: Reaction catalysts place relative to the reaction arrow
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/catalysts3000.rxn
+
+        renderRxnfileWithOptions('data/catalysts3000.rxn', 'render-catalysts-placement', [ "above", "above-and-below" ])
+
 
 .. indigo_option::
     :name: render-center-double-bond-when-stereo-adjacent
-    :type: -
-    :default: -
-    :short: -
+    :type: boolean
+    :default: false
+    :short: Center double done if there is an attached stereobond
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        indigo.setOption("ignore-stereochemistry-errors", True)
+        renderMolfileWithOptions('data/render-center-double-bond-when-stereo-adjacent.mol', 'render-center-double-bond-when-stereo-adjacent', [ True, False ])
 
 .. indigo_option::
     :name: render-comment-alignment
-    :type: -
-    :default: -
-    :short: -
+    :type: enum
+    :default: center
+    :short: Comment alignment
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        renderMolfileWithOptions('data/render_example4.mol', 'render-comment-alignment', [ 'left', 'right', 'center' ])
 
 .. indigo_option::
     :name: render-data-sgroup-color
-    :type: -
-    :default: -
-    :short: -
+    :type: color
+    :default: black
+    :short: Color for data-sgroups
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/render_example-sgroup.mol
+
+        renderMolfileWithOptions('data/render_example-sgroup.mol', 'render-data-sgroup-color', [ '0.5, 0.3, 0.5', '0.1, 0.1, 0.9' ])
 
 .. indigo_option::
     :name: render-hdc-offset
-    :type: -
-    :default: -
-    :short: -
+    :type: offset
+    :default: 0, 0
+    :short: Offset for the rendering area
 
-.. indigo_option::
-    :name: render-highlight-color
-    :type: -
-    :default: -
-    :short: -
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
 
-.. indigo_option::
-    :name: render-highlight-color-enabled
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-highlight-thickness-enabled
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-highlighted-labels-visible
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-image-height
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-image-max-height
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-image-max-width
-    :type: -
-    :default: -
-    :short: -
-
-.. indigo_option::
-    :name: render-image-width
-    :type: -
-    :default: -
-    :short: -
+        renderMolfileWithOptions('data/render_example1.mol', 'render-hdc-offset', [ '0, 0', '30, 5' ])
 
 .. indigo_option::
     :name: render-stereo-style
-    :type: -
-    :default: -
-    :short: -
+    :type: enum (old, ext, none)
+    :default: old
+    :short: Stereocenters rendering mode
+
+    **old**:
+        Only display the "Chiral" sign when appropriate.
+    **ext**:
+        Display "abs", "and", "or" labels near each stereocenter.
+    **none**:
+        Hide all the information about the stereogroups.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/stereo-chiral.mol
+
+        renderMolfileWithOptions('data/stereo-chiral.mol', 'render-stereo-style', [ 'old', 'ext', 'none' ])
+
+    `Old` style of rendering is used only with ordinary stereocenters, and enhanced stereocenters with `and` and `or` groups are rendered the same in the `old` and `ext` mode:
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/stereo-chiral2.mol
+
+        renderMolfileWithOptions('data/stereo-chiral2.mol', 'render-stereo-style', [ 'old', 'ext', 'none' ])
+
 
 .. indigo_option::
     :name: render-superatom-mode
-    :type: -
-    :default: -
-    :short: -
+    :type: enum (expand, collapse)
+    :default: expand
+    :short: Supertatoms rendering mode
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/abbr.mol
+
+        renderMolfileWithOptions('data/abbr.mol', 'render-superatom-mode', [ 'expand', 'collapse' ])
 
 .. indigo_option::
     :name: render-valences-visible
-    :type: -
-    :default: -
-    :short: -
+    :type: boolean
+    :default: true
+    :short: Render explicit valences
 
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        renderMolfileWithOptions('data/render_example-valence.mol', 'render-valences-visible', [ True, False ])
+
+.. indigo_option::
+    :name: render-highlight-color
+    :type: color
+    :default: red
+    :short: The color to be used for highlighting.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/highlighting.mol
+
+        renderMolfileWithOptions('data/highlighting.mol', 'render-highlight-color', [ '1, 0, 0', '0, 0, 1' ])
+
+.. indigo_option::
+    :name: render-highlight-color-enabled
+    :type: boolean
+    :default: true
+    :short: Enable highlighting with color.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/highlighting.mol
+
+        renderMolfileWithOptions('data/highlighting.mol', 'render-highlight-color-enabled', [ True, False ])
+
+.. indigo_option::
+    :name: render-highlight-thickness-enabled
+    :type: boolean
+    :default: false
+    :short: Enable highlighting with thick bonds and bold atom labels.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/highlighting.mol
+
+        renderMolfileWithOptions('data/highlighting.mol', 'render-highlight-thickness-enabled', [ True, False ])
+
+.. indigo_option::
+    :name: render-highlighted-labels-visible
+    :type: boolean
+    :default: False
+    :short:
+        Always show labels of highlighted atoms.
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+        :downloads: data/highlighting.mol
+
+        renderMolfileWithOptions('data/highlighting.mol', 'render-highlighted-labels-visible', [ True, False ])
