@@ -98,15 +98,25 @@ class IndigoRendererDirective(directives.images.Figure):
         (image_node,) = directives.images.Image.run(self)
         if isinstance(image_node, nodes.system_message):
             return [image_node, ]
+
         image_node.indigorenderer = dict(text=text, options=indigorenderer_options)
-        if 'nocode' in self.options or len(text.strip()) == 0:
-            return [image_node, ]
+
         blocks = []
-        if indigorenderer_options['indigoobjecttype'] == 'code':
-            literal = nodes.literal_block(text, text, line=self.lineno)
-            #literal['linenos'] = True
-            literal['language'] = 'python'
-            blocks = [literal]
+
+        def addImagesNodes ():
+            blocks.append(image_node)
+
+        need_code = 'nocode' not in self.options and len(text.strip()) > 0 and indigorenderer_options['indigoobjecttype'] == 'code'
+
+        def addCodeNodes ():
+            if need_code:
+                literal = nodes.literal_block(text, text, line=self.lineno)
+                #literal['linenos'] = True
+                literal['language'] = 'python'
+                blocks.append(literal)
+
+
+        def addDownloadsNodes ():
             if 'downloads' in self.options:
                 blocks.append(nodes.Text('Input:     '))
                 for file in self.options['downloads'].split(','):
@@ -117,7 +127,14 @@ class IndigoRendererDirective(directives.images.Figure):
                     blocks.append(nodes.Text('     '))
                 blocks.append(nodes.line())
 
-        blocks.append(image_node)
+        if need_code:
+            addCodeNodes()
+            addDownloadsNodes()
+            addImagesNodes()
+        else:
+            addImagesNodes()
+            blocks.append(nodes.line())
+            addDownloadsNodes()
 
         return blocks
 
