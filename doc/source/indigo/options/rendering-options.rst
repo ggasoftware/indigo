@@ -6,19 +6,19 @@ Rendering options
     :name: render-with-different-options
     :hidden:
 
-    def renderWithOptions (mol, name, optvalues, draw_default=False):
+    def renderWithOptions (mol, name, optvalues, draw_default=False, separator='='):
         if draw_default:
             indigo.setOption("render-comment", "default")
             indigoRenderer.renderToFile(mol, 'result.png')
 
         for idx, value in enumerate(optvalues):
+            indigo.setOption("render-comment", "%s%s%s" % (name, separator, value))
             indigo.setOption(name, value)
-            indigo.setOption("render-comment", "%s=%s" % (name, value))
             indigoRenderer.renderToFile(mol, 'result_%d.png' % (idx))
 
-    def renderMolfileWithOptions (molfile, name, optvalues, draw_default=False):
+    def renderMolfileWithOptions (molfile, name, optvalues, draw_default=False, separator='='):
         mol = indigo.loadMoleculeFromFile(molfile)
-        renderWithOptions(mol, name, optvalues, draw_default=draw_default)
+        renderWithOptions(mol, name, optvalues, draw_default=draw_default, separator=separator)
 
     def renderRxnfileWithOptions (rxnfile, name, optvalues):
         rxn = indigo.loadReactionFromFile(rxnfile)
@@ -223,6 +223,27 @@ Rendering options
         renderMolfileWithOptions('data/render_example2.mol', 'render-implicit-hydrogens-visible', [ True, False ])
 
 .. indigo_option::
+    :name: render-comment
+    :type: string
+    :default: 
+    :short:
+        Put a comment at the top or bottom of the image
+
+     If the image size is set explicitly, it must not be smaller than the size of the comment bounding box.
+
+     All the examples on this page contain comment with option value.
+
+     Comment can have multiple line:
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        renderMolfileWithOptions('data/render_example1.mol', 'render-comment', [ "multiline\ncomment" ])
+
+.. indigo_option::
     :name: render-comment-font-size
     :type: integer
     :default: 20
@@ -236,6 +257,23 @@ Rendering options
         :nocode:
 
         renderMolfileWithOptions('data/render_example1.mol', 'render-comment-font-size', [ 15, 20, 25 ])
+
+.. indigo_option::
+    :name: render-comment-alignment
+    :type: enum
+    :default: center
+    :short: Comment alignment
+
+    Supported values: left, right, center, center-left
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :includecode: render-with-different-options
+        :nocode:
+
+        renderMolfileWithOptions('data/render_example4.mol', 'render-comment-alignment', [ 'left', 'right', 'center', 'center-left' ], separator='=\n')
+
 
 .. indigo_option::
     :name: render-comment-color
@@ -266,17 +304,6 @@ Rendering options
         :nocode:
 
         renderMolfileWithOptions('data/render_example1.mol', 'render-bond-line-width', [ 0.5, 1, 2 ])
-
-.. indigo_option::
-    :name: render-comment
-    :type: string
-    :default: 
-    :short:
-        Put a comment at the top or bottom of the image
-
-     If the image size is set explicitly, it must not be smaller than the size of the comment bounding box.
-
-     All the examples on this page contain comment with option value.
 
 .. indigo_option::
     :name: render-comment-position
@@ -432,22 +459,6 @@ Rendering options
 
         indigo.setOption("ignore-stereochemistry-errors", True)
         renderMolfileWithOptions('data/render-center-double-bond-when-stereo-adjacent.mol', 'render-center-double-bond-when-stereo-adjacent', [ True, False ])
-
-.. indigo_option::
-    :name: render-comment-alignment
-    :type: enum
-    :default: center
-    :short: Comment alignment
-
-    Supported values: left, right, center
-
-    .. indigorenderer::
-        :indigoobjecttype: code
-        :indigoloadertype: code
-        :includecode: render-with-different-options
-        :nocode:
-
-        renderMolfileWithOptions('data/render_example4.mol', 'render-comment-alignment', [ 'left', 'right', 'center' ])
 
 .. indigo_option::
     :name: render-data-sgroup-color
