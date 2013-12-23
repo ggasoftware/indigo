@@ -101,8 +101,6 @@ def process_indigo_option_nodes(app, doctree, fromdocname):
     env = app.builder.env
 
     for node in doctree.traverse(optionslist):
-        print(node['docname'])
-
         content = []
 
         tbl = nodes.table()
