@@ -128,7 +128,9 @@ def process_indigo_option_nodes(app, doctree, fromdocname):
 
         content.append(tbl)
 
-        for opt_info in env.indigo_options:
+        sorted_options = sorted(env.indigo_options, key=lambda o:o['name'])
+
+        for opt_info in sorted_options:
             row = nodes.row()
             tbody += row
 
