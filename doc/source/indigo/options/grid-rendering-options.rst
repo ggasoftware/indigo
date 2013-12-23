@@ -16,13 +16,56 @@ Grid rendering options
 
     If not defined, no titles are shown. The special value "^NAME" means to use the molecule's name as its title.
 
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :downloads: data/pubchem-subset.sdf
+
+        array = indigo.createArray()
+        for m in indigo.iterateSDFile('data/pubchem-subset.sdf'):
+            array.arrayAdd(m)
+
+        indigo.setOption("render-grid-margins", "10, 10")
+        indigo.setOption("render-grid-title-offset", "10")
+        indigo.setOption("render-comment-position", "top")
+        indigo.setOption("render-grid-title-font-size", "15")
+
+        indigo.setOption("render-grid-title-property", "PUBCHEM_MOLECULAR_WEIGHT")
+        indigo.setOption("render-comment", "PUBCHEM_MOLECULAR_WEIGHT")
+        indigoRenderer.renderGridToFile(array, None, 2, "result_2.png")
+
+        indigo.setOption("render-grid-title-property", "PUBCHEM_COORDINATE_TYPE")
+        indigo.setOption("render-comment", "PUBCHEM_COORDINATE_TYPE")
+        indigoRenderer.renderGridToFile(array, None, 2, "result_1.png")
+
+
+
 .. indigo_option::
     :name: render-grid-title-alignment
     :type: enum
     :default: center
     :short: Cell title alignment
 
-    Supported values: left, right, center
+    Supported values: left, right, center, center-left
+
+    .. indigorenderer::
+        :indigoobjecttype: code
+        :indigoloadertype: code
+        :downloads: data/pubchem-subset.sdf
+
+        array = indigo.createArray()
+        for m in indigo.iterateSDFile('data/pubchem-subset.sdf'):
+            array.arrayAdd(m)
+
+        indigo.setOption("render-grid-margins", "10, 10")
+        indigo.setOption("render-grid-title-offset", "10")
+        indigo.setOption("render-comment-position", "top")
+        indigo.setOption("render-grid-title-font-size", "15")
+        indigo.setOption("render-grid-title-alignment", "center-left")
+
+        indigo.setOption("render-grid-title-property", "PUBCHEM_COORDINATE_TYPE")
+        indigo.setOption("render-comment", "render-grid-title-alignment=center-left")
+        indigoRenderer.renderGridToFile(array, None, 2, "result_1.png")
 
 .. indigo_option::
     :name: render-grid-title-font-size
