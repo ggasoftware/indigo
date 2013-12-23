@@ -23,8 +23,6 @@ Summary
 
 * Smiles includes cis-trans marks in rings including in canonical smiles (:ref:`details <indigo-1.1.12-smiles-cis-trans>`)
 
-* Python 3 compatibility
-
 * New method ``restoreUnambiguousHydrogens`` that tries to restore hydrogens if they can be determined. ``checkBadValance``, ``checkAmbiguousH`` and ``checkForConsistency`` methods calls ``restoreUnambiguousHydrogens`` first.
 
 * cdxml format: text width estimation
@@ -54,6 +52,7 @@ Summary
 * Monoisotpic mass computation fix
 * SMARTS expressions can have multiple atom constraints for a single atom without explicit `and` operation. For example [!#1!#6].
 * Fixed ``collapse`` option value for ``render-superatom-mode`` option.
+* Complete Python 3 compatibility 
 
 *******
 Details
@@ -65,17 +64,68 @@ Details
 Smiles cis-trans flags
 ======================
 
+Cis-trans bonds in rings are saved using SMILES extension with "c" and "t" fields.
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+
+    m = indigo.loadMoleculeFromFile('data/macro.mol')
+
+    indigoRenderer.renderToFile(m, "result.png")
+
+    print(m.canonicalSmiles())
+
 .. _indigo-1.1.12-bold-bonds:
 
 ==================================
 Bold bonds detection and rendering
 ==================================
 
+To depict Surgars Indigo can automatically detect where bold bond should be drawn:
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+    :downloads: data/bold-bond2.mol
+
+    m = indigo.loadMoleculeFromFile('data/bold-bond2.mol')
+
+    indigo.setOption("render-comment", "With bold bonds")
+    indigoRenderer.renderToFile(m, "result_1.png")
+
+    indigo.setOption('render-bold-bond-detection', False)
+
+    indigo.setOption("render-comment", "Original")
+    indigoRenderer.renderToFile(m, "result_2.png")
+
 .. _indigo-1.1.12-saver:
 
 =============
 Generic saver
 =============
+
+Python bindings has a new method `createSaver` that can be used to save chemical structures into buffers.
+
+.. indigorenderer::
+    :indigoobjecttype: code
+    :indigoloadertype: code
+
+    # Create molecules and set their names
+    m1 = indigo.loadMolecule('[H][C@](C)(N)O')
+    m1.setName("Molecule 1")
+    m2 = indigo.loadMolecule('C1=CC=CC=C1')
+    m2.setName("Molecule 2")
+
+    # Create string stream and save molecules in SMILES format into it
+    buffer = indigo.writeBuffer()
+    # Instead of "smi" one can use "sdf", "cml", "rdf"
+    saver = indigo.createSaver(buffer, "smi")
+    saver.append(m1)
+    saver.append(m2)
+
+    print(buffer.toString())
+
 
 .. _indigo-1.1.12-build:
 
