@@ -17,7 +17,7 @@ Summary
 
 * Transformation method do not change molecule layout for simple transformations.
 
-* Timeout option works for layout and transformation methods
+* Timeout option works for layout and transformation methods [#f5]_
 
 * Build process and dependencies update (:ref:`details <indigo-1.1.12-build>`)
 
@@ -39,9 +39,9 @@ Summary
 
 **Bugfixes**:
 
-* Various fixes in the transformation procedure.
+* Various fixes in the transformation procedure [#f2]_
 * Fixed canvas estimation in the rendering methods.
-* Indigo finalization method could affect other Indigo instances as well in Java
+* Indigo finalization method could affect other Indigo instances as well in Java [#f1]_
 * ``foldHydrogens`` method mark other bond if that bond were marked
 * Fixed issues in deserialization method if molecule cis-trans configuration was invalid
 * Substructure matcher matches N[C@H](O)S on C[C@@](N)(O)S
@@ -49,8 +49,8 @@ Summary
 * Molfile with ISISHOST header are supported. Such molecules has empty molfile version.
 * Layout did not respect cis-trans configuration in rare cases
 * Memory leak in InChI to molecule conversion
-* Monoisotpic mass computation fix
-* SMARTS expressions can have multiple atom constraints for a single atom without explicit `and` operation. For example [!#1!#6].
+* Monoisotpic mass computation fix [#f3]_
+* SMARTS expressions can have multiple atom constraints for a single atom without explicit `and` operation. For example [!#1!#6]. [#f4]_
 * Fixed ``collapse`` option value for ``render-superatom-mode`` option.
 * Complete Python 3 compatibility
 
@@ -137,3 +137,11 @@ Build Process
 * Visual Studio 2013 and OS X Mavericks support added.
 * Indigo-java: source and target compatibility versions set to Java 1.5.
 * Third party libraries: Cairo updated to 1.126; Pixman updated to 0.30.2; Cairo can be built with cairo-gl, cairo-vg, cairo-egl and cairo-glesv2 support.
+
+.. rubric:: Footnotes
+
+.. [#f1] Bug report by Joos: https://groups.google.com/d/msg/indigo-bugs/Vdzp0B26KsA/DehJm2QhW34J
+.. [#f2] Bug report by Ken: https://groups.google.com/d/msg/indigo-general/6B-LlLR0Ppw/fvI1RM7CzWUJ
+.. [#f3] Bug report by Oliver Kohlbacher: https://groups.google.com/d/msg/indigo-general/h6p9QxMuI_Q/4x2TckxWProJ
+.. [#f4] Bug report by Oleg: https://groups.google.com/d/msg/indigo-general/D3P-TbZBnL0/oJEOM82i1lwJ
+.. [#f5] Feature request by Ken: https://groups.google.com/d/msg/indigo-general/wK4eDGiOzJc/kgwc0mAH89YJ
