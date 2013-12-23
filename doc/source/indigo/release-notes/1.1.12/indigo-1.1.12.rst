@@ -4,7 +4,7 @@
 Indigo 1.1.12
 #############
 
-:Date: 20 Nov 2013
+:Date: 23 Dec 2013
 
 *******
 Summary
@@ -13,79 +13,51 @@ Summary
 
 **New features and improvements**:
 
-* GLIBC_2.14 dependency excluded
+* Bold bonds detection in the rendering procedure  (:ref:`details <indigo-1.1.12-bold-bonds>`)
 
-* indigo: transformations: some bugs fixed, transform layout option added + simple transforms can be performed without  layout
+* Transformation method do not change molecule layout for simple transformations.
 
-* timeouts for layout and transformations
+* Timeout option works for layout and transformation methods
 
-* :ref:`Bold bonds detection <indigo-1.1.12-bold-bonds>`
+* Build process and dependecies update (:ref:`details <indigo-1.1.12-build>`)
 
-* :ref:`Build process and dependecies update <indigo-1.1.12-build>`
-
-* :ref:`Smiles now includes cis-trans marks in rings including in canonical smiles <indigo-1.1.12-smiles-cis-trans>`
+* Smiles includes cis-trans marks in rings including in canonical smiles (:ref:`details <indigo-1.1.12-smiles-cis-trans>`)
 
 * Python 3 compatibility
 
-* Transfromation calls layout only for complicated reactions
-
-* indigo-core: new methods restoreUnambiguousHydrogens that tries to restore hydrogens if they can be determined (c1ccncc1). checkBadValance, CheckAmbiguousH and checkForConsistency methods calls restoreUnambiguousHydrogens first.
+* New method ``restoreUnambiguousHydrogens`` that tries to restore hydrogens if they can be determined. ``checkBadValance``, ``checkAmbiguousH`` and ``checkForConsistency`` methods calls ``restoreUnambiguousHydrogens`` first.
 
 * cdxml format: text width estimation
 
-* indigo-python: createSaver method to render or save into buffers
+* indigo-python: createSaver method to render or save into buffers (:ref:`details <indigo-1.1.12-saver>`)
+
+* Structures rendering in grid can have multiline titles
+
+* Linux distributive do not depent on GLIBC_2.14. Binary files can be used even on old versions of Linux.
+
+* Multiline properties, empty properties are loaded from SDF file. ``rawData`` method includes properties too.
+
+* SDF reader can read sdf.gz and files
 
 **Bugfixes**:
 
-* indigo: transformations: some bugs fixed [cite...]
-* SDF loader: multiline properties, empty properties, RawData includes properties too
-* rendering: fixed canvas estimation
-* indigo-java fix: Indigo finalization method could affect other Indigo instances as well
-* SDF reader can read sdf.gz and files
-* Fixed: foldHydrogens method mark other bond if that bond were marked
-* Various fixes in transformations in reaction product enumeration (example for that?)
-* Bug in deserialization if molecule cis-trans configuration was invalid
-* substructure matcher: * indigo-core: allow to match N[C@H](O)S on C[C@@](N)(O)S
-* indigo-api: normalize method validates cis-trans after doing normalization
-* indigo-core: molfile loaded treats empty molfile version as V2000 because there were such file with  ISISHOST header [IND-597]
-
-TODO:
-
-    New methods:
-        isMolecule
-
-        Read other
-
-    Examples:
-
-        1. how to use C++ modules with Cmake
-
-        2. Highlight matchings + align them
-
-        3. Generic MCS with C++
+* Various fixes in the transformation procedure.
+* Fixed canvas estimation in the rendering methods.
+* Indigo finalization method could affect other Indigo instances as well in Java
+* ``foldHydrogens`` method mark other bond if that bond were marked
+* Fixed issues in deserialization method if molecule cis-trans configuration was invalid
+* Substructure matcher matchs N[C@H](O)S on C[C@@](N)(O)S
+* Normalize method validates cis-trans after doing normalization
+* Molfile with ISISHOST header are supported. Such molecules has empty molfile version.
+* Layout did not respect cis-trans configuration in rare cases
+* Memory leak in InChI to molecule conversion
+* Monoisotpic mass computation fix
+* SMARTS expressions can have multiple atom constraints for a single atom without explicit `and` operation. For example [!#1!#6].
+* Fixed ``collapse`` option value for ``render-superatom-mode`` option.
 
 *******
 Details
 *******
-
-:ref:`Bold bonds detection <indigo-1.1.12-bold-bonds>`
-
-.. _indigo-1.1.12-build:
-
-=============
-Build Process
-=============
-
-build process:
-*  indigo can be build with external cairo-gl and cairo-vg libraries
-* findCairo
-* findPixman
-* MinGW 
-* cairo-egl and cairo-glesv2 support added
-* cairo: linking with libegl and libglesv2
-* cairo updated to 1.126; pixman updated to 0.30.2
-* Visual Studio 2013 and OS X Mavericks support added
-* indigo-java: source and target set to 1.5
 
 .. _indigo-1.1.12-smiles-cis-trans:
 
@@ -99,5 +71,26 @@ Smiles cis-trans flags
 Bold bonds detection and rendering
 ==================================
 
+.. _indigo-1.1.12-saver:
 
+=============
+Generic saver
+=============
 
+.. _indigo-1.1.12-build:
+
+=============
+Build Process
+=============
+
+build process:
+
+* indigo can be build with external cairo-gl and cairo-vg libraries
+* findCairo
+* findPixman
+* MinGW 
+* cairo-egl and cairo-glesv2 support added
+* cairo: linking with libegl and libglesv2
+* cairo updated to 1.126; pixman updated to 0.30.2
+* Visual Studio 2013 and OS X Mavericks support added
+* indigo-java: source and target set to 1.5
