@@ -163,6 +163,40 @@ class OptionsTableDirective(Directive):
         optlist['docname'] = env.docname
         return [ optlist ]
 
+def indigo_option_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """Link to an Indigo option
+
+    Returns 2 part tuple containing list of nodes to insert into the
+    document and a list of system messages.  Both are allowed to be
+    empty.
+
+    :param name: The role name used in the document.
+    :param rawtext: The entire markup snippet, with role.
+    :param text: The text marked with the role.
+    :param lineno: The line number where rawtext appears in the input.
+    :param inliner: The inliner instance that called us.
+    :param options: Directive options for customization.
+    :param content: The directive content for customization.
+    """
+    env = inliner.document.settings.env
+    app = env.app
+
+    opts = [opt for opt in env.indigo_options if opt['name'] == text]
+    if len(opts) == 0:
+        raise ValueError("Cannot find option " + slug)
+
+    opt_info = opts[0]
+
+    newnode = nodes.reference('', '')
+    innernode = nodes.Text(opt_info['name'], opt_info['name'])
+    newnode['refdocname'] = opt_info['docname']
+    newnode['refuri'] = app.builder.get_relative_uri(
+        env.docname, opt_info['docname'])
+    newnode['refuri'] += '#' + normalize_name(opt_info['name'])
+    newnode.append(innernode)
+
+    return [newnode], []
+
 def setup(app):
     app.add_directive('indigo_option', OptionsDirective)
     app.add_directive('indigo_options_table', OptionsTableDirective)
@@ -175,3 +209,5 @@ def setup(app):
 
     app.connect('doctree-resolved', process_indigo_option_nodes)
     app.connect('env-purge-doc', purge_indigo_options)
+
+    app.add_role('optref', indigo_option_role)
