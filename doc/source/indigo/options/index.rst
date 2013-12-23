@@ -27,6 +27,7 @@ Contents:
     aromaticity.rst
     timeout.rst
     reaction-product-enumeration.rst
+    inchi.rst
 
 .. indigo_options_table::
 
