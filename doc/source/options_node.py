@@ -52,7 +52,7 @@ class OptionsDirective(Directive):
         section_node = optioninfo()
         section_node['names'].append(normalize_name(name))
         section_node['ids'].append(normalize_name(name))
-        titlenode = nodes.title('', name)
+        titlenode = nodes.title('', name + ' = ' + self.options.get('default'))
         section_node += titlenode
 
         new_list = nodes.field_list()
