@@ -9,7 +9,7 @@ Indigo 1.1.12
 *******
 Summary
 *******
-    
+
 
 **New features and improvements**:
 
@@ -83,14 +83,7 @@ Generic saver
 Build Process
 =============
 
-build process:
 
-* indigo can be build with external cairo-gl and cairo-vg libraries
-* findCairo
-* findPixman
-* MinGW 
-* cairo-egl and cairo-glesv2 support added
-* cairo: linking with libegl and libglesv2
-* cairo updated to 1.126; pixman updated to 0.30.2
-* Visual Studio 2013 and OS X Mavericks support added
-* indigo-java: source and target set to 1.5
+* Visual Studio 2013 and OS X Mavericks support added.
+* Indigo-java: source and target compatibility versions set to Java 1.5.
+* Third party libraries: Cairo updated to 1.126; Pixman updated to 0.30.2; Cairo can be built with cairo-gl, cairo-vg, cairo-egl and cairo-glesv2 support.
