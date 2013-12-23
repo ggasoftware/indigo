@@ -19,19 +19,19 @@ Summary
 
 * Timeout option works for layout and transformation methods
 
-* Build process and dependecies update (:ref:`details <indigo-1.1.12-build>`)
+* Build process and dependencies update (:ref:`details <indigo-1.1.12-build>`)
 
 * Smiles includes cis-trans marks in rings including in canonical smiles (:ref:`details <indigo-1.1.12-smiles-cis-trans>`)
 
-* New method ``restoreUnambiguousHydrogens`` that tries to restore hydrogens if they can be determined. ``checkBadValance``, ``checkAmbiguousH`` and ``checkForConsistency`` methods calls ``restoreUnambiguousHydrogens`` first.
+* ``checkBadValance``, ``checkAmbiguousH`` methods try to find number of implicit hydrogens for aromatic molecules first. If molecule is aromatic then there is no need to dearomatize it first to check ambiguous hydrogens. See :optref:`unique-dearomatization` option that contains examples.
 
 * cdxml format: text width estimation
 
 * indigo-python: createSaver method to render or save into buffers (:ref:`details <indigo-1.1.12-saver>`)
 
-* Structures rendering in grid can have multiline titles
+* Rendering module supports multiline comments and titles. See :optref:`render-comment` and :optref:`render-grid-title-property` options.
 
-* Linux distributive do not depent on GLIBC_2.14. Binary files can be used even on old versions of Linux.
+* Linux distributive do not depend on GLIBC_2.14. Binary files can be used even on old versions of Linux.
 
 * Multiline properties, empty properties are loaded from SDF file. ``rawData`` method includes properties too.
 
@@ -44,7 +44,7 @@ Summary
 * Indigo finalization method could affect other Indigo instances as well in Java
 * ``foldHydrogens`` method mark other bond if that bond were marked
 * Fixed issues in deserialization method if molecule cis-trans configuration was invalid
-* Substructure matcher matchs N[C@H](O)S on C[C@@](N)(O)S
+* Substructure matcher matches N[C@H](O)S on C[C@@](N)(O)S
 * Normalize method validates cis-trans after doing normalization
 * Molfile with ISISHOST header are supported. Such molecules has empty molfile version.
 * Layout did not respect cis-trans configuration in rare cases
@@ -52,7 +52,7 @@ Summary
 * Monoisotpic mass computation fix
 * SMARTS expressions can have multiple atom constraints for a single atom without explicit `and` operation. For example [!#1!#6].
 * Fixed ``collapse`` option value for ``render-superatom-mode`` option.
-* Complete Python 3 compatibility 
+* Complete Python 3 compatibility
 
 *******
 Details
