@@ -26,6 +26,7 @@ Contents:
     deconvolution.rst
     aromaticity.rst
     timeout.rst
+    reaction-product-enumeration.rst
 
 .. indigo_options_table::
 
