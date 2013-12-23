@@ -192,3 +192,20 @@ Generic options
         saver.append(m2)
 
         print(buffer.toString())
+
+.. indigo_option::
+    :name: filename-encoding
+    :type: enum (ascii, utf-8)
+    :default: ascii
+    :short: 
+        File names encoding
+        
+
+.. indigo_option::
+    :name: serialize-preserve-ordering
+    :type: boolean
+    :default: false
+    :short: 
+        Preserve atom and bond ordering in the serialization procedure
+        
+

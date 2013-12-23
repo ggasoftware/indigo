@@ -43,7 +43,7 @@ Rendering options
 .. indigo_option::
     :name: render-image-size
     :type: size
-    :default: -
+    :default: auto
     :short:
         Width and height of target image.
 
@@ -94,31 +94,31 @@ Rendering options
 .. indigo_option::
     :name: render-image-width
     :type: int
-    :default: -
+    :default: auto
     :short: Image width
 
 .. indigo_option::
     :name: render-image-height
     :type: int
-    :default: -
+    :default: auto
     :short: Image height
 
 .. indigo_option::
     :name: render-image-max-width
     :type: int
-    :default: -
+    :default: auto
     :short: Maximum image width
 
 .. indigo_option::
     :name: render-image-max-height
     :type: int
-    :default: -
+    :default: auto
     :short: Maximum image height
 
 .. indigo_option::
     :name: render-margins
     :type: size
-    :default: -
+    :default: auto
     :short:
         Horizontal and vertical margins around the image, in pixels.
 
@@ -438,6 +438,8 @@ Rendering options
     :type: enum
     :default: center
     :short: Comment alignment
+
+    Supported values: left, right, center
 
     .. indigorenderer::
         :indigoobjecttype: code
