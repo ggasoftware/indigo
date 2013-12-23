@@ -1,10 +1,10 @@
 .. _indigo-example-api-usage:
 
 ================
-API Installation
+SDK Installation
 ================
 
-This example demonstrates how to install Indigo API to all supported languages.
+This example demonstrates how to install Indigo SDK to all supported languages.
 
 ----
 Java
@@ -37,7 +37,7 @@ If your project use Maven, you can add Indigo dependency to your pom.xml:
 	    ...
 	</dependencies>
 
-On Debian starting from Wheezy and Ubuntu starting from 12.10 you can install stable version of Indigo API with the following command:
+On Debian starting from Wheezy and Ubuntu starting from 12.10 you can install stable version of Indigo SDK with the following command:
 
 ::
 
@@ -47,7 +47,7 @@ On Debian starting from Wheezy and Ubuntu starting from 12.10 you can install st
 Python
 ------
 
-On Debian starting from Wheezy and Ubuntu starting from 12.10 you can install stable version of Indigo API with the following-command:
+On Debian starting from Wheezy and Ubuntu starting from 12.10 you can install stable version of Indigo SDK with the following-command:
 
 ::
 
