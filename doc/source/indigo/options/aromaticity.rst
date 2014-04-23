@@ -33,7 +33,7 @@ Aromaticity options
 
     indigo.setOption("aromaticity-model", "generic")
     m.dearomatize()
-    indigo.setOption("render-comment", "Dearomatized (basic)")
+    indigo.setOption("render-comment", "Dearomatized (generic)")
     indigoRenderer.renderToFile(m, "result_3.png")
 
     
