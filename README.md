@@ -1,4 +1,4 @@
-# Indigo project was moved
+# Indigo project was moved (this repo is no longer updated)
 
 ## New repository
 
