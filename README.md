@@ -1,10 +1,10 @@
-#Note
+# Indigo project was moved
 
-**Indigo project was moved to**
+## New repository
 
 https://github.com/epam/Indigo
 
-New portal with detailed
+## New portal with detailed documentation
 
 http://lifescience.opensource.epam.com/
 
