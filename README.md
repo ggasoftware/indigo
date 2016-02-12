@@ -1,3 +1,13 @@
+#Note
+
+**Indigo project was moved to**
+
+https://github.com/epam/Indigo
+
+New portal with detailed
+
+http://lifescience.opensource.epam.com/
+
 # GGA Indigo projects #
 
 Copyright (c) 2009-2013 GGA Software Services LLC
