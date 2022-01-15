@@ -6,9 +6,9 @@ https://github.com/epam/Indigo
 
 ## New portal with detailed documentation
 
-http://lifescience.opensource.epam.com/
+https://lifescience.opensource.epam.com/
 
-# GGA Indigo projects #
+# [Deprecated] GGA Indigo projects #
 
 Copyright (c) 2009-2013 GGA Software Services LLC
 GNU General Public License version 3
@@ -23,8 +23,6 @@ This repository includes:
 		- indigo-depict: Molecule and reaction rendering utility
 		- indigo-cano: Canonical SMILES generator
 		- indigo-deco: R-Group deconvolution utility
-
-Detailed documentations is available at http://ggasoftware.com/opensource
 
 Main directory structure:
 	* api: Indigo API sources
